@@ -4,6 +4,8 @@ import com.example.airbnb.common.domain.BaseEntity;
 import com.example.airbnb.house.domain.House;
 import com.example.airbnb.member.domain.Member;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +26,9 @@ public class Reservation extends BaseEntity {
     private LocalDate startRegisterDate;
 
     private LocalDate endRegisterDate;
+
+    @Enumerated(EnumType.STRING)
+    private Progress progress;
 
     @ManyToOne
     private Member member;

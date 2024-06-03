@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -31,8 +32,10 @@ public class Reservation extends BaseEntity {
     private Progress progress;
 
     @ManyToOne
+    @JoinColumn
     private Member member;
 
     @ManyToOne
+    @JoinColumn
     private House house;
 }

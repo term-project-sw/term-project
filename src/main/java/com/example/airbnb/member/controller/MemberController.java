@@ -1,17 +1,19 @@
 package com.example.airbnb.member.controller;
 
-import com.example.airbnb.member.dto.MemberCreateRequest;
-import com.example.airbnb.member.dto.MemberLoginRequest;
-import com.example.airbnb.member.dto.MemberLoginResponse;
-import com.example.airbnb.member.service.MemberService;
-import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.example.airbnb.member.dto.MemberCreateRequest;
+import com.example.airbnb.member.dto.MemberLoginRequest;
+import com.example.airbnb.member.dto.MemberLoginResponse;
+import com.example.airbnb.member.service.MemberService;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
@@ -50,5 +52,10 @@ public class MemberController {
         session.setAttribute("memberId", response.getId());
         session.setAttribute("role", response.getRole());
         return "Login successful";
+    }
+    @PostMapping("/member/logout")
+    public String logout(HttpSession session) {
+    	session.invalidate();
+    	return "redirect:/main-page.jsp";
     }
 }

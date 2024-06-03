@@ -6,7 +6,6 @@ import com.example.airbnb.member.dto.MemberLoginRequest;
 import com.example.airbnb.member.dto.MemberLoginResponse;
 import com.example.airbnb.member.repository.MemberRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 
 @Controller
 public class MemberService {
@@ -17,14 +16,12 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    @Transactional
     public void save(final MemberCreateRequest request) {
-        if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalStateException("이미 등록된 이메일 입니다.");
-        }
         final Member member = new Member(
+                request.getName(),
                 request.getEmail(),
                 request.getPassword(),
+                request.getPhone(),
                 request.getRole()
         );
         memberRepository.save(member);

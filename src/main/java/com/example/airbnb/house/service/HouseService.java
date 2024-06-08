@@ -46,7 +46,7 @@ public class HouseService {
                 request.getAddress(),
                 request.getIntroduce(),
                 request.getDescription(),
-                request.getPricePerPerson(),
+                request.getPricePerDay(),
                 member
         );
         House savedHouse = houseRepository.save(house);

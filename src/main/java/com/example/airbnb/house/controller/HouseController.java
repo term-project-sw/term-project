@@ -39,14 +39,14 @@ public class HouseController {
                                 @RequestParam("address") String address,
                                 @RequestParam("introduce") String introduce,
                                 @RequestParam("description") String description,
-                                @RequestParam("pricePerPerson") Integer pricePerPerson,
+                                @RequestParam("pricePerDay") Integer pricePerDay,
                                 @RequestParam("images") List<MultipartFile> images,
                                 HttpSession session
     ) throws IOException {
         Long memberId = (Long) session.getAttribute("memberId");
 
         HouseCreateRequest request = new HouseCreateRequest(name, maxPeople, address, introduce, description,
-                pricePerPerson, images);
+                pricePerDay, images);
         houseService.saveHouse(request, memberId);
         return "Success";
     }

@@ -17,6 +17,6 @@ public class HouseCreateRequest {
     private String address;
     private String introduce;
     private String description;
-    private int pricePerPerson;
+    private int pricePerDay;
     private List<MultipartFile> images = new ArrayList<>();
 }

@@ -30,7 +30,9 @@ public class House extends BaseEntity {
 
     private String description;
 
-    private Integer pricePerPerson;
+//    private Integer pricePerPerson;
+
+    private Integer pricePerDay;
 
     @ManyToOne
     @JoinColumn
@@ -40,13 +42,13 @@ public class House extends BaseEntity {
 
     public House(final String name, final Integer maxPeople, final String address,
                  final String introduce, final String description,
-                 final Integer pricePerPerson, final Member member) {
+                 final Integer pricePerDay, final Member member) {
         this.name = name;
         this.maxPeople = maxPeople;
         this.address = address;
         this.introduce = introduce;
         this.description = description;
-        this.pricePerPerson = pricePerPerson;
+        this.pricePerDay = pricePerDay;
         this.member = member;
     }
 }

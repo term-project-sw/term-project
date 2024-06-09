@@ -1,5 +1,6 @@
 package com.example.airbnb.house.controller;
 
+import com.example.airbnb.house.domain.House;
 import com.example.airbnb.house.dto.HouseCreateRequest;
 import com.example.airbnb.house.dto.RoomCreateRequest;
 import com.example.airbnb.house.service.HouseService;
@@ -7,9 +8,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,5 +65,32 @@ public class HouseController {
         houseService.saveHouse(request, memberId, rooms);
 
         return "Success";
+    }
+
+    @GetMapping("/houses")
+    public ModelAndView listHouses(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size,
+                                   @RequestParam(required = false) String search) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<House> housePage;
+
+        if (search != null && !search.isEmpty()) {
+            housePage = houseService.searchHousesByName(search, pageable);
+        } else {
+            housePage = houseService.getHouses(pageable);
+        }
+
+        ModelAndView modelAndView = new ModelAndView("house/house-list");
+        modelAndView.addObject("housePage", housePage);
+        modelAndView.addObject("search", search);
+        return modelAndView;
+    }
+
+    @GetMapping("/houses/{id}")
+    public ModelAndView getHouseDetails(@PathVariable Long id) {
+        House house = houseService.getHouseById(id);
+        ModelAndView modelAndView = new ModelAndView("house/house-detail");
+        modelAndView.addObject("house", house);
+        return modelAndView;
     }
 }

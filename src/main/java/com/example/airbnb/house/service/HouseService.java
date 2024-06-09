@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,5 +72,17 @@ public class HouseService {
             );
             roomRepository.save(room);
         }
+    }
+
+    public Page<House> getHouses(Pageable pageable) {
+        return houseRepository.findAll(pageable);
+    }
+
+    public Page<House> searchHousesByName(String name, Pageable pageable) {
+        return houseRepository.findByNameContainingIgnoreCase(name, pageable);
+    }
+
+    public House getHouseById(Long id) {
+        return houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid house Id:" + id));
     }
 }

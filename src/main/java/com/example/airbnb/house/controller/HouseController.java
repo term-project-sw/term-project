@@ -1,7 +1,9 @@
 package com.example.airbnb.house.controller;
 
 import com.example.airbnb.house.dto.HouseCreateRequest;
+import com.example.airbnb.house.dto.RoomCreateRequest;
 import com.example.airbnb.house.service.HouseService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,10 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/house")
 public class HouseController {
 
-    private HouseService houseService;
+    private final HouseService houseService;
+    private final ObjectMapper objectMapper;
 
-    public HouseController(final HouseService houseService) {
+    public HouseController(final HouseService houseService, final ObjectMapper objectMapper) {
         this.houseService = houseService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/register")
@@ -34,20 +39,26 @@ public class HouseController {
 
     @PostMapping("/register")
     @ResponseBody
-    public String registerHouse(@RequestParam("name") String name,
-                                @RequestParam("maxPeople") Integer maxPeople,
-                                @RequestParam("address") String address,
-                                @RequestParam("introduce") String introduce,
-                                @RequestParam("description") String description,
-                                @RequestParam("pricePerDay") Integer pricePerDay,
-                                @RequestParam("images") List<MultipartFile> images,
-                                HttpSession session
+    public String registerHouse(
+            @RequestParam("name") String name,
+            @RequestParam("maxPeople") Integer maxPeople,
+            @RequestParam("address") String address,
+            @RequestParam("introduce") String introduce,
+            @RequestParam("description") String description,
+            @RequestParam("pricePerDay") Integer pricePerDay,
+            @RequestParam("images") List<MultipartFile> images,
+            @RequestParam("rooms") String roomsJson,
+            HttpSession session
     ) throws IOException {
         Long memberId = (Long) session.getAttribute("memberId");
 
         HouseCreateRequest request = new HouseCreateRequest(name, maxPeople, address, introduce, description,
                 pricePerDay, images);
-        houseService.saveHouse(request, memberId);
+
+        List<RoomCreateRequest> rooms = objectMapper.readValue(roomsJson, objectMapper.getTypeFactory().constructCollectionType(List.class, RoomCreateRequest.class));
+
+        houseService.saveHouse(request, memberId, rooms);
+
         return "Success";
     }
 }

@@ -2,7 +2,9 @@ package com.example.airbnb.house.service;
 
 import com.example.airbnb.house.domain.House;
 import com.example.airbnb.house.domain.Image;
+import com.example.airbnb.house.domain.Room;
 import com.example.airbnb.house.dto.HouseCreateRequest;
+import com.example.airbnb.house.dto.RoomCreateRequest;
 import com.example.airbnb.house.repository.HouseRepository;
 import com.example.airbnb.house.repository.ImageRepository;
 import com.example.airbnb.house.repository.RoomRepository;
@@ -10,6 +12,7 @@ import com.example.airbnb.member.domain.Member;
 import com.example.airbnb.member.repository.MemberRepository;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,29 +39,36 @@ public class HouseService {
     }
 
     @Transactional
-    public void saveHouse(HouseCreateRequest request, Long memberId) throws IOException {
+    public void saveHouse(HouseCreateRequest houseCreateRequest, Long memberId, List<RoomCreateRequest> roomCreateRequest)  throws IOException {
 
         Member member = memberRepository.findById(memberId)
                                         .orElseThrow(() -> new IllegalArgumentException("없는 사람입니다."));
         House house = new House(
-                request.getName(),
-                request.getMaxPeople(),
-                request.getAddress(),
-                request.getIntroduce(),
-                request.getDescription(),
-                request.getPricePerDay(),
+                houseCreateRequest.getName(),
+                houseCreateRequest.getMaxPeople(),
+                houseCreateRequest.getAddress(),
+                houseCreateRequest.getIntroduce(),
+                houseCreateRequest.getDescription(),
+                houseCreateRequest.getPricePerDay(),
                 member
         );
         House savedHouse = houseRepository.save(house);
 
-        for (MultipartFile file : request.getImages()) {
+        for (MultipartFile file : houseCreateRequest.getImages()) {
             if (!file.isEmpty()) {
                 String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
                 Image image = new Image(base64Image, house);
-                // Save the image entity to the database
-                // (Assuming you have a repository for Image)
                 imageRepository.save(image);
             }
+        }
+
+        for (RoomCreateRequest request : roomCreateRequest) {
+            Room room = new Room(
+                    request.getFurniutureCount(),
+                    request.getRoomType(),
+                    savedHouse
+            );
+            roomRepository.save(room);
         }
     }
 }

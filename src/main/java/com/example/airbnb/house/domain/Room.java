@@ -28,4 +28,10 @@ public class Room {
     @ManyToOne
     @JoinColumn
     private House house;
+
+    public Room(final Integer furniutureCount, final RoomType type, final House house) {
+        this.furniutureCount = furniutureCount;
+        this.type = type;
+        this.house = house;
+    }
 }

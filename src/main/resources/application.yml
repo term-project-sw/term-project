@@ -31,9 +31,7 @@ spring:
   h2:
     console:
       enabled: true
-  mybatis:
-    config-location: classpath:config/mybatis-config.xml
-    mapper-locations: classpath*:mapper/*.xml
+
 ---
 spring:
   config:

@@ -77,7 +77,7 @@
     <label for="description">설명:</label>
     <textarea id="description" name="description" required></textarea><br>
 
-    <label for="pricePerDay">1인당 가격:</label>
+    <label for="pricePerDay">하루당 가격:</label>
     <input type="number" id="pricePerDay" name="pricePerDay" required><br>
 
     <label for="images">이미지:</label>

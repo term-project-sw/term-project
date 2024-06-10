@@ -4,6 +4,7 @@ import com.example.airbnb.house.domain.House;
 import com.example.airbnb.house.domain.Image;
 import com.example.airbnb.house.domain.Room;
 import com.example.airbnb.house.dto.HouseCreateRequest;
+import com.example.airbnb.house.dto.HouseDetailResponse;
 import com.example.airbnb.house.dto.RoomCreateRequest;
 import com.example.airbnb.house.repository.HouseRepository;
 import com.example.airbnb.house.repository.ImageRepository;
@@ -82,7 +83,10 @@ public class HouseService {
         return houseRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
-    public House getHouseById(Long id) {
-        return houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid house Id:" + id));
+    public HouseDetailResponse getHouseById(Long id) {
+        House house = houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid house Id:" + id));
+        List<Room> rooms = roomRepository.findByHouse(house);
+        List<Image> images = imageRepository.findByHouse(house);
+        return HouseDetailResponse.of(house, rooms, images);
     }
 }

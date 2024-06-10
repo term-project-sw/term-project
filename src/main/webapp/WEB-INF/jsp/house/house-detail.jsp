@@ -38,6 +38,20 @@
     </tr>
 </table>
 
+<h2>Rooms</h2>
+<ul>
+    <c:forEach var="room" items="${rooms}">
+        <li>${room.type} - Furniture Count: ${room.furniutureCount}</li>
+    </c:forEach>
+</ul>
+
+<h2>Images</h2>
+<c:if test="${not empty images}">
+    <c:forEach var="image" items="${images}">
+        <img src="data:image/png;base64,${image.data}" alt="Image" style="width:300px; height:auto;"/>
+    </c:forEach>
+</c:if>
+
 <a href="/houses">Back to House List</a>
 
 </body>

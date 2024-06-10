@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.airbnb.review.mapper.ReviewMapper">
+    <select id="getReviewListSQL" resultType="com.example.airbnb.review.dto.ReviewListDTO" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT
+            R.id,
+            R.title,
+            R.rating,
+            H.name as houseName,
+            date_format(R.updated_at,'%Y-%m-%d %H:%i:%s') as updateAt
+        FROM
+            review R
+        JOIN
+            house H ON R.house_id = H.id
+        WHERE
+            R.member_id = #{memberId}
+        ]]>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <if test="searchType == 'houseName'">
+                <![CDATA[
+                AND H.name LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+            <if test="searchType == 'title'">
+                <![CDATA[
+                AND R.title LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+        </if>
+        <![CDATA[
+        LIMIT #{pageStartNum}, #{itemsPerPage}
+        ]]>
+    </select>
+
+    <select id="getReviewListCountSQL" resultType="java.lang.Integer" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT COUNT(*) AS TOTAL_CNT
+        FROM
+            review R
+        JOIN
+            house H ON R.house_id = H.id
+        WHERE
+            R.member_id = #{memberId}
+        ]]>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <if test="searchType == 'houseName'">
+                <![CDATA[
+                AND H.name LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+            <if test="searchType == 'title'">
+                <![CDATA[
+                AND R.title LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+        </if>
+    </select>
+
+
+
+
+    <select id="getReviewDetailSQL" resultType="com.example.airbnb.review.dto.ReviewDetailDTO" parameterType="java.util.Map">
+    <![CDATA[
+        SELECT
+            id,
+            title,
+            rating,
+            content,
+            member_id as member,
+            date_format(updated_at,'%Y-%m-%d %H:%i:%s') as updatedAt
+        FROM
+            review
+        WHERE
+            id = #{reviewId}
+        ]]>
+</select>
+
+
+
+    <!-- UPDATE 쿼리 -->
+    <update id="updateReviewDetailSQL" parameterType="java.util.Map">
+    <![CDATA[
+        UPDATE
+            review
+        SET
+            title = #{title},
+            content = #{content},
+            rating = #{rating}
+        WHERE
+            id = #{reviewId}
+        ]]>
+</update>
+
+    <!-- DELETE 쿼리 -->
+    <delete id="removeReviewDetailSQL" parameterType="java.util.Map">
+    <![CDATA[
+        DELETE FROM
+            review
+        WHERE
+            id = #{reviewId}
+        ]]>
+</delete>
+
+</mapper>

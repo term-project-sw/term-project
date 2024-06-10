@@ -2,6 +2,7 @@ package com.example.airbnb.house.controller;
 
 import com.example.airbnb.house.domain.House;
 import com.example.airbnb.house.dto.HouseCreateRequest;
+import com.example.airbnb.house.dto.HouseDetailResponse;
 import com.example.airbnb.house.dto.RoomCreateRequest;
 import com.example.airbnb.house.service.HouseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,9 +89,11 @@ public class HouseController {
 
     @GetMapping("/houses/{id}")
     public ModelAndView getHouseDetails(@PathVariable Long id) {
-        House house = houseService.getHouseById(id);
+        HouseDetailResponse response = houseService.getHouseById(id);
         ModelAndView modelAndView = new ModelAndView("house/house-detail");
-        modelAndView.addObject("house", house);
+        modelAndView.addObject("house", response.getHouse());
+        modelAndView.addObject("rooms", response.getRooms());
+        modelAndView.addObject("images", response.getImages());
         return modelAndView;
     }
 }

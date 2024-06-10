@@ -1,11 +1,12 @@
 package com.example.airbnb.member.service;
 
+import org.springframework.stereotype.Controller;
+
 import com.example.airbnb.member.domain.Member;
 import com.example.airbnb.member.dto.MemberCreateRequest;
 import com.example.airbnb.member.dto.MemberLoginRequest;
 import com.example.airbnb.member.dto.MemberLoginResponse;
 import com.example.airbnb.member.repository.MemberRepository;
-import org.springframework.stereotype.Controller;
 
 @Controller
 public class MemberService {

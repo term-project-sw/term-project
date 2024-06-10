@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +26,12 @@ public class Room {
     private RoomType type;
 
     @ManyToOne
+    @JoinColumn
     private House house;
+
+    public Room(final Integer furniutureCount, final RoomType type, final House house) {
+        this.furniutureCount = furniutureCount;
+        this.type = type;
+        this.house = house;
+    }
 }

@@ -19,8 +19,10 @@ public class MemberService {
 
     public void save(final MemberCreateRequest request) {
         final Member member = new Member(
+                request.getName(),
                 request.getEmail(),
                 request.getPassword(),
+                request.getPhone(),
                 request.getRole()
         );
         memberRepository.save(member);

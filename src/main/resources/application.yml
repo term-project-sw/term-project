@@ -5,11 +5,14 @@ spring:
       suffix: .jsp
   profiles:
     active: local
-#server:
-#  servlet:
-#    jsp:
-#      init-parameters:
-#        development=true:
+  #server:
+  #  servlet:
+  #    jsp:
+  #      init-parameters:
+  #        development=true:
+mybatis:  
+  config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath*:mapper/*.xml
 ---
 spring:
   config:
@@ -20,14 +23,15 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-        format_sql: ture
+        format_sql: true
         show_sql: true
   h2:
     console:
       enabled: true
+
 ---
 spring:
   config:
@@ -46,3 +50,6 @@ spring:
         format_sql: true
         show_sql: true
     database: mysql
+mybatis:
+  config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath*:mapper/*.xml

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.airbnb.member.mapper.HostMapper">
+    <select id="getReservationListSQL" resultType="com.example.airbnb.reservation.domain.Reservation" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT *
+        FROM reservation r
+        JOIN house h ON h.id = r.house_id
+        WHERE h.member_id = #{memberId}
+        ]]>
+    </select>
+</mapper>

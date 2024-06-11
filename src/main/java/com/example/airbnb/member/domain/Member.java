@@ -1,6 +1,7 @@
 package com.example.airbnb.member.domain;
 
 import com.example.airbnb.common.domain.BaseEntity;
+import com.example.airbnb.member.domain.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

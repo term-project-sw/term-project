@@ -1,10 +1,9 @@
-package com.example.airbnb.reservation.service;
+package com.example.airbnb.review.service;
 
 import com.example.airbnb.common.domain.PagingMo;
-import com.example.airbnb.member.mapper.MemberMapper;
-import com.example.airbnb.reservation.domain.Reservation;
-import com.example.airbnb.reservation.dto.ReservationDetailDTO;
-import com.example.airbnb.reservation.mapper.ReservationMapper;
+import com.example.airbnb.review.domain.Review;
+import com.example.airbnb.review.dto.ReviewDetailDTO;
+import com.example.airbnb.review.mapper.ReviewMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -14,35 +13,35 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ReservationServiceImpl implements ReservationServiceIF{
+public class ReviewServiceImpl implements ReviewServiceIF{
     // log4j 객체
-    private static final Logger log = (Logger) LogManager.getLogger(ReservationServiceImpl.class);
+    private static final Logger log = (Logger) LogManager.getLogger(ReviewServiceImpl.class);
 
     // 회원 Mapper DI 객체
-    private ReservationMapper reservationMapper;
+    private ReviewMapper reviewMapper;
 
     // 페이징 DI 객체
     private PagingMo pagingMo;
 
     /**
-     * ReservationServiceImpl 생성자
+     * MemberServiceImpl 생성자
      *
      * @author 승기
-     * @param reservationMapper
+     * @param reviewMapper
      */
-    public ReservationServiceImpl(ReservationMapper reservationMapper, PagingMo pagingMo) {
-        this.reservationMapper = reservationMapper;
+    public ReviewServiceImpl(ReviewMapper reviewMapper, PagingMo pagingMo) {
+        this.reviewMapper = reviewMapper;
         this.pagingMo = pagingMo;
     }
 
     /**
-     * 예약 정보 조회 서비스 메소드
+     * 리뷰 정보 조회 서비스 메소드
      *
      * @author 승기
-     * @since 2024.05.30
+     * @since 2024.04.01
      */
     @Override
-    public Map<String, Object> getReservationListService(Map<String, Object> allParams) {
+    public Map<String, Object> getReviewListService(Map<String, Object> allParams) {
 
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -68,12 +67,12 @@ public class ReservationServiceImpl implements ReservationServiceIF{
         log.info("[3] 페이징 시작번호 설정 :" + pageStartNum);
 
         // [4] 페이지 출력 대상 전체 개수 구하기
-        int totalCnt = reservationMapper.getReservationListCountSQL(allParams);
+        int totalCnt = reviewMapper.getReviewListCountSQL(allParams);
         log.info("[4] 전체 조회 개수 :" + totalCnt);
 
         // [5] 실제 데이터 조회
-        List<Reservation> reservationList = reservationMapper.getReservationListSQL(allParams);
-        log.info("[5] 실제 데이터 개수 :" + reservationList.size());
+        List<Review> reviewList = reviewMapper.getReviewListSQL(allParams);
+        log.info("[5] 실제 데이터 개수 :" + reviewList.size());
 
         // [6] Paging 모듈 호출
         String pagingHtml = pagingMo.getPagingHTML(totalCnt, (int) allParams.get("num"),
@@ -81,39 +80,40 @@ public class ReservationServiceImpl implements ReservationServiceIF{
         log.info("[6] pagingHTML = " + pagingHtml);
 
         // [7] Controller로 넘겨줄 파라미터 셋팅
-        result.put("reservationList", reservationList);
+        result.put("reviewList", reviewList);
         result.put("pagingHtml", pagingHtml);
 
         return result;
     }
 
 
-    //예약 상세 정보 서비스
+    //리뷰 상세 정보 서비스
     @Override
-    public ReservationDetailDTO getReservationDetailService(Map<String, Object> allParams) {
-        ReservationDetailDTO reservationDetail = null;
-        try {
-            log.info("(1) 예약 시퀀스 정보 : "+ allParams.get("reservationId"));
-            // DB에서 id를 가지고 1개의 예약정보를 가져오자
-            reservationDetail = reservationMapper.getReservationDetailSQL(allParams);
+    public ReviewDetailDTO getReviewDetailService(Map<String, Object> allParams) {
+        ReviewDetailDTO reviewDetail = null;
 
-            log.info("(2) 예약 정보 db 조회결과  : " + reservationDetail.toString());
+        try {
+            log.info("(1) 예약 시퀀스 정보 : "+ allParams.get("reviewId"));
+            // DB에서 id를 가지고 1개의 예약정보를 가져오자
+            reviewDetail = reviewMapper.getReviewDetailSQL(allParams);
+
+            log.info("(2) 예약 정보 db 조회결과  : " + reviewDetail.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return reservationDetail;
+        return reviewDetail;
     }
 
 
-    // 예약 정보 수정 서비스
+    // 리뷰 정보 수정 서비스
     @Override
-    public Map<String, Object> modifyReservationService(Map<String, String> allParams){
+    public Map<String, Object> modifyReviewService(Map<String, String> allParams){
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("REOL_CD", "000000");
         result.put("REOL_MSG", "SUCCESS");
 
         try {
-            reservationMapper.updateReservationDetailSQL(allParams);
+            reviewMapper.updateReviewDetailSQL(allParams);
 
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -123,16 +123,16 @@ public class ReservationServiceImpl implements ReservationServiceIF{
     }
 
 
-    //예약 정보 삭제 서비스
+    //리뷰 정보 삭제 서비
     @Override
-    public Map<String, Object> removeReservationService(Map<String, String> allParams){
+    public Map<String, Object> removeReviewService(Map<String, String> allParams){
 
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("REOL_CD", "000000");
         result.put("REOL_MSG", "SUCCESS");
 
         try {
-            reservationMapper.removeReservationDetailSQL(allParams);
+            reviewMapper.removeReviewDetailSQL(allParams);
 
         } catch(Exception ex) {
             ex.printStackTrace();

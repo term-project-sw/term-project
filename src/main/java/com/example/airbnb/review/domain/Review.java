@@ -26,6 +26,8 @@ public class Review extends BaseEntity {
 
     private String content;
 
+    private String title;
+
     @ManyToOne
     @JoinColumn(name = "house_id")
     private House house;

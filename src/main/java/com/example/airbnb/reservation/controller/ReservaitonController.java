@@ -1,7 +1,10 @@
 package com.example.airbnb.reservation.controller;
 
 import com.example.airbnb.reservation.dto.ReservationDetailDTO;
+import com.example.airbnb.reservation.service.ReservationService;
 import com.example.airbnb.reservation.service.ReservationServiceIF;
+import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,7 @@ public class ReservaitonController {
 
     // 예약 서비스 DI 객체
     private ReservationServiceIF service;
+    private final ReservationService reservationService;
 
     /**
      * ReservaitonController 생성자
@@ -25,8 +29,10 @@ public class ReservaitonController {
      * @author 승기
      * @param service
      */
-    public ReservaitonController(ReservationServiceIF service) {
+
+    public ReservaitonController(final ReservationServiceIF service, final ReservationService reservationService) {
         this.service = service;
+        this.reservationService = reservationService;
     }
 
     /**
@@ -122,5 +128,20 @@ public class ReservaitonController {
         result = service.removeReservationService(allParams);
 
         return result;
+    }
+
+    @PostMapping("/reserve")
+    public ModelAndView makeReservation(@RequestParam("houseId") Long houseId,
+                                        @RequestParam("startRegisterDate") LocalDate startRegisterDate,
+                                        @RequestParam("endRegisterDate") LocalDate endRegisterDate,
+                                        HttpSession session) {
+        Long memberId = (Long) session.getAttribute("memberId");
+        reservationService.makeReservation(houseId, memberId, startRegisterDate, endRegisterDate);
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/calendar");
+        modelAndView.addObject("houseId", houseId);
+        modelAndView.addObject("year", startRegisterDate.getYear());
+        modelAndView.addObject("month", startRegisterDate.getMonthValue());
+        return modelAndView;
     }
 }

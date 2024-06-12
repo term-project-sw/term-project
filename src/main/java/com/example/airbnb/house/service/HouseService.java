@@ -111,12 +111,12 @@ public class HouseService {
 
         allDatesInMonth.removeAll(reservedDates);
 
+        System.out.println("#########################");
+        System.out.println(allDatesInMonth);
+        System.out.println("#########################");
+
         // 4. 결과 반환
         return new ArrayList<>(allDatesInMonth);
     }
 
-//    public boolean isReservationAvailable(Long houseId, Date startRegisterDate, Date endRegisterDate) {
-//        List<Reservation> overlappingReservations = houseRepository.findOverlappingReservations(houseId, startRegisterDate, endRegisterDate);
-//        return overlappingReservations.isEmpty();
-//    }
 }

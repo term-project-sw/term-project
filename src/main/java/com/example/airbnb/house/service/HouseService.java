@@ -11,9 +11,16 @@ import com.example.airbnb.house.repository.ImageRepository;
 import com.example.airbnb.house.repository.RoomRepository;
 import com.example.airbnb.member.domain.Member;
 import com.example.airbnb.member.repository.MemberRepository;
+import com.example.airbnb.reservation.domain.Reservation;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class HouseService {
-
-    private static final String UPLOAD_DIR = "uploads/";
 
     private final HouseRepository houseRepository;
 
@@ -89,4 +94,29 @@ public class HouseService {
         List<Image> images = imageRepository.findByHouse(house);
         return HouseDetailResponse.of(house, rooms, images);
     }
+
+    public List<LocalDate> findReservationsByHouseIdAndMonth(Long houseId, int year, int month) {
+        List<Reservation> reservations = houseRepository.findReservationsByHouseIdAndMonth(houseId, year, month);
+
+        LocalDate startOfMonth = LocalDate.of(year, month, 1);
+        LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
+        Set<LocalDate> allDatesInMonth = startOfMonth.datesUntil(endOfMonth.plusDays(1)).collect(Collectors.toSet());
+
+        Set<LocalDate> reservedDates = new HashSet<>();
+        for (Reservation reservation : reservations) {
+            LocalDate start = reservation.getStartRegisterDate();
+            LocalDate end = reservation.getEndRegisterDate();
+            reservedDates.addAll(start.datesUntil(end.plusDays(1)).collect(Collectors.toSet()));
+        }
+
+        allDatesInMonth.removeAll(reservedDates);
+
+        System.out.println("#########################");
+        System.out.println(allDatesInMonth);
+        System.out.println("#########################");
+
+        // 4. 결과 반환
+        return new ArrayList<>(allDatesInMonth);
+    }
+
 }

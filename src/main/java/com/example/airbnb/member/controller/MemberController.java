@@ -61,6 +61,6 @@ public class MemberController {
     @PostMapping("/member/logout")
     public String logout(HttpSession session) {
     	session.invalidate();
-    	return "redirect:/main-page.jsp";
+    	return "메인페이지로 되돌아 갑니다.";
     }
 }

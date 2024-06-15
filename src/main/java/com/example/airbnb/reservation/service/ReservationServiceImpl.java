@@ -36,6 +36,7 @@ public class ReservationServiceImpl implements ReservationServiceIF{
     }
 
     /**
+
      * 예약 정보 조회 서비스 메소드
      *
      * @author 승기
@@ -105,7 +106,10 @@ public class ReservationServiceImpl implements ReservationServiceIF{
     }
 
 
+
+
     // 예약 정보 수정 서비스
+
     @Override
     public Map<String, Object> modifyReservationService(Map<String, String> allParams){
         Map<String, Object> result = new HashMap<String, Object>();
@@ -121,6 +125,7 @@ public class ReservationServiceImpl implements ReservationServiceIF{
 
         return null;
     }
+
 
 
     //예약 정보 삭제 서비스

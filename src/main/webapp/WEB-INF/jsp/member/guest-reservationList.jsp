@@ -131,7 +131,6 @@
         });
         $('#btn-review-form').click(function(e){
             location.href = "/guest/${allParams.memberId}/reviews";
-
         });
 
         $('#items-per-page').change(function(e){

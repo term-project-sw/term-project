@@ -38,7 +38,6 @@
                 success: function(response) {
                     // handle success
                     alert(response);
-                    
                 },
                 error: function(error) {
                     // handle error

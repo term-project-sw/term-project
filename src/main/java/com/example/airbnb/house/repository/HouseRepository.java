@@ -1,6 +1,7 @@
 package com.example.airbnb.house.repository;
 
 import com.example.airbnb.house.domain.House;
+
 import com.example.airbnb.reservation.domain.Reservation;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public interface HouseRepository extends JpaRepository<House, Long> {
     Page<House> findAll(Pageable pageable);
 
     Page<House> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
 
     @Query("""
             SELECT r FROM Reservation r WHERE r.house.id = :houseId 

@@ -4,7 +4,9 @@ import com.example.airbnb.house.domain.House;
 import com.example.airbnb.house.domain.Image;
 import com.example.airbnb.house.domain.Room;
 import com.example.airbnb.house.dto.HouseCreateRequest;
+
 import com.example.airbnb.house.dto.HouseDetailResponse;
+
 import com.example.airbnb.house.dto.RoomCreateRequest;
 import com.example.airbnb.house.repository.HouseRepository;
 import com.example.airbnb.house.repository.ImageRepository;
@@ -21,6 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +33,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class HouseService {
+
+    private static final String UPLOAD_DIR = "uploads/";
 
     private final HouseRepository houseRepository;
 
@@ -88,6 +93,9 @@ public class HouseService {
         return houseRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
+
+    public House getHouseById(Long id) {
+        return houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid house Id:" + id));
     public HouseDetailResponse getHouseById(Long id) {
         House house = houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid house Id:" + id));
         List<Room> rooms = roomRepository.findByHouse(house);

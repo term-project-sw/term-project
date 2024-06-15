@@ -1,10 +1,12 @@
 package com.example.airbnb.reservation.controller;
 
 import com.example.airbnb.reservation.dto.ReservationDetailDTO;
+
 import com.example.airbnb.reservation.service.ReservationService;
 import com.example.airbnb.reservation.service.ReservationServiceIF;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,9 @@ public class ReservaitonController {
 
     // 예약 서비스 DI 객체
     private ReservationServiceIF service;
+
     private final ReservationService reservationService;
+
 
     /**
      * ReservaitonController 생성자
@@ -144,4 +148,5 @@ public class ReservaitonController {
         modelAndView.addObject("month", startRegisterDate.getMonthValue());
         return modelAndView;
     }
+
 }

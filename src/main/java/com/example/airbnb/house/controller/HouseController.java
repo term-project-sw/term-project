@@ -92,6 +92,7 @@ public class HouseController {
 
     @GetMapping("/houses/{id}")
     public ModelAndView getHouseDetails(@PathVariable Long id) {
+
         HouseDetailResponse response = houseService.getHouseById(id);
         ModelAndView modelAndView = new ModelAndView("house/house-detail");
         modelAndView.addObject("house", response.getHouse());

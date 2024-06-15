@@ -38,6 +38,7 @@
     </tr>
 </table>
 
+
 <h2>Rooms</h2>
 <ul>
     <c:forEach var="room" items="${rooms}">

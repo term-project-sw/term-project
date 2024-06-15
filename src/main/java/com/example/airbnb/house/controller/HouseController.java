@@ -2,12 +2,16 @@ package com.example.airbnb.house.controller;
 
 import com.example.airbnb.house.domain.House;
 import com.example.airbnb.house.dto.HouseCreateRequest;
+import com.example.airbnb.house.dto.HouseDetailResponse;
 import com.example.airbnb.house.dto.RoomCreateRequest;
 import com.example.airbnb.house.service.HouseService;
+import com.example.airbnb.reservation.domain.Reservation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -88,9 +92,35 @@ public class HouseController {
 
     @GetMapping("/houses/{id}")
     public ModelAndView getHouseDetails(@PathVariable Long id) {
-        House house = houseService.getHouseById(id);
+
+        HouseDetailResponse response = houseService.getHouseById(id);
         ModelAndView modelAndView = new ModelAndView("house/house-detail");
-        modelAndView.addObject("house", house);
+        modelAndView.addObject("house", response.getHouse());
+        modelAndView.addObject("rooms", response.getRooms());
+        modelAndView.addObject("images", response.getImages());
+        return modelAndView;
+    }
+
+    @GetMapping("/reservation")
+    public ModelAndView showHouseReservation(@RequestParam("houseId") Long houseId) {
+        ModelAndView modelAndView = new ModelAndView("/house/house-reservation");
+        return modelAndView;
+    }
+
+
+
+    @GetMapping("/calendar")
+    public ModelAndView getCalendar(@RequestParam("houseId") Long houseId,
+                                    @RequestParam("year") int year,
+                                    @RequestParam("month") int month) {
+        List<LocalDate> reservedDates = houseService.findReservationsByHouseIdAndMonth(houseId, year, month);
+        List<String> reservedDatesStr = reservedDates.stream()
+                                                     .map(LocalDate::toString)
+                                                     .collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView("/house/house-calendar");
+        modelAndView.addObject("reservedDates", reservedDatesStr);
+        modelAndView.addObject("year", year);
+        modelAndView.addObject("month", month);
         return modelAndView;
     }
 }

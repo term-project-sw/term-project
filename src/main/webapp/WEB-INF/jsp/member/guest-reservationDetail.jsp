@@ -177,8 +177,8 @@
                 data : formData,
                 success : function(response){
                         alert("예약 정보가 삭제되었습니다.");
-                        <%--location.href="/member/${reservationDetail.memberId}/reservations";--%>
-                        history.back();
+                        location.href="/member/${reservationDetail.memberId}/reservations";
+                        // history.back();
                 },
                 error : function(response){
                     alert("삭제 실패");

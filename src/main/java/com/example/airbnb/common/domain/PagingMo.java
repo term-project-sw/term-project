@@ -7,7 +7,7 @@ public class PagingMo {
 
 	/**
 	 * 페이징 모듈 메소드
-	 * 
+	 *
 	 * @param totalCnt     : 전체 개수
 	 * @param num          : 현재 페이지 번호
 	 * @param itemsPerPage : 출력 개수
@@ -107,3 +107,4 @@ public class PagingMo {
 	}
 
 }
+

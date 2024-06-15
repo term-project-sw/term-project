@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +30,25 @@ public class House extends BaseEntity {
 
     private String description;
 
-    private Integer pricePerPerson;
+//    private Integer pricePerPerson;
+
+    private Integer pricePerDay;
 
     @ManyToOne
+    @JoinColumn
     private Member member;
+
+
+
+    public House(final String name, final Integer maxPeople, final String address,
+                 final String introduce, final String description,
+                 final Integer pricePerDay, final Member member) {
+        this.name = name;
+        this.maxPeople = maxPeople;
+        this.address = address;
+        this.introduce = introduce;
+        this.description = description;
+        this.pricePerDay = pricePerDay;
+        this.member = member;
+    }
 }

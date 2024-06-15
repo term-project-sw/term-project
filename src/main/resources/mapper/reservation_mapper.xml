@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.airbnb.reservation.mapper.ReservationMapper">
+    <select id="getReservationListSQL" resultType="com.example.airbnb.reservation.dto.ReservationListDTO" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT
+            R.id,
+            H.address,
+            H.name as house,
+            date_format(R.updated_at,'%Y-%m-%d %H:%i:%s') as createdAt
+        FROM
+            reservation R
+        JOIN
+            house H ON R.house_id = H.id
+        WHERE
+            R.member_id = #{memberId}
+        ]]>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <if test="searchType == 'houseName'">
+                <![CDATA[
+                AND H.name LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+            <if test="searchType == 'address'">
+                <![CDATA[
+                AND H.address LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+        </if>
+        <![CDATA[
+        LIMIT #{pageStartNum}, #{itemsPerPage}
+        ]]>
+    </select>
+
+    <select id="getReservationListCountSQL" resultType="java.lang.Integer" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT COUNT(*) AS TOTAL_CNT
+        FROM
+            reservation R
+        JOIN
+            house H ON R.house_id = H.id
+        WHERE
+            R.member_id = #{memberId}
+        ]]>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <if test="searchType == 'houseName'">
+                <![CDATA[
+                AND H.name LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+            <if test="searchType == 'address'">
+                <![CDATA[
+                AND H.address LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+        </if>
+    </select>
+
+
+
+
+    <select id="getReservationDetailSQL" resultType="com.example.airbnb.reservation.dto.ReservationDetailDTO" parameterType="java.util.Map">
+    <![CDATA[
+        SELECT
+            R.id,
+            H.address,
+            H.name as houseName,
+            M.name as guestName,
+            date_format(R.start_register_date,'%Y-%m-%d %H:%i:%s') as startDate,
+            date_format(R.end_register_date,'%Y-%m-%d %H:%i:%s') as endDate,
+            H.price_per_person,
+            H.max_people,
+            R.progress,
+            date_format(R.updated_at,'%Y-%m-%d %H:%i:%s') as updatedAt,
+            S.name as hostName,
+            S.phone as hostPhone,
+            R.member_id as memberId,
+            -- 총 결제 금액 계산
+            (DATEDIFF(R.end_register_date, R.start_register_date) * H.price_per_person) as totalPrice
+        FROM
+            reservation R
+                JOIN house H ON R.house_id = H.id
+                JOIN member M ON R.member_id = M.id
+                JOIN member S ON H.member_id = S.id
+        WHERE
+            R.id = #{reservationId}
+        ]]>
+</select>
+
+
+
+    <!-- UPDATE 쿼리 -->
+    <update id="updateReservationDetailSQL" parameterType="java.util.Map">
+    <![CDATA[
+        UPDATE
+            reservation
+        SET
+            start_register_date = #{startRegisterDate},
+            end_register_date = #{endRegisterDate}
+        WHERE
+            id = #{reservationId}
+          AND progress = 'IN_PROGRESS'
+        ]]>
+</update>
+
+    <!-- DELETE 쿼리 -->
+    <delete id="removeReservationDetailSQL" parameterType="java.util.Map">
+    <![CDATA[
+        DELETE FROM
+            reservation
+        WHERE
+            id = #{reservationId}
+        ]]>
+</delete>
+
+</mapper>

@@ -13,8 +13,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MemberCreateRequest {
 
+    private String name;
     private String email;
     private String password;
+    private String phone;
     private Role role;
 
 }

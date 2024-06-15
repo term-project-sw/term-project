@@ -15,16 +15,18 @@
         width: 100%;
         top: 0;
         left: 0;
-        z-index: 1000; /* 헤더를 항상 최상단에 위치시킵니다. */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 헤더에 약간의 그림자를 추가하여 구분을 명확히 합니다. */
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .content {
-        padding-top: 60px; /* 헤더 높이만큼 패딩을 추가하여 본문 내용이 헤더 아래로 시작하게 합니다. */
+    .main-container {
+        display: flex;
+        padding-top: 60px; /* 헤더 높이만큼 패딩을 추가합니다 */
+        height: 100vh; /* 전체 화면 높이 */
     }
 </style>
 <div class="header">
     <div>
-        <button onclick="location.href='/host/mypage'">Main Page</button>
+        <button onclick="location.href='/main'">Main Page</button>
     </div>
     <div>
         <c:choose>

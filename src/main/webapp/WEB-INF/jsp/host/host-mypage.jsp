@@ -6,40 +6,80 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-    /* 왼쪽 버튼 그룹 */
+        /* 왼쪽 버튼 그룹 */
     .vertical-buttons {
-        position: fixed;
-        left: 20px; /* 왼쪽 여백 조절 */
-        top: 50%; /* 화면 상단으로부터의 위치 조절 */
-        transform: translateY(-50%);
+        flex: 0 0 200px; /* 고정 너비 */
         display: flex;
         flex-direction: column;
         gap: 10px; /* 버튼 사이의 간격 조절 */
+        padding: 20px;
+        background-color: #f0f0f0; /* 배경색 추가 */
+        height: calc(100vh - 60px); /* 화면 높이에서 헤더 높이를 뺀 값으로 높이 설정 */
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 왼쪽 버튼 그룹에 그림자 추가 */
     }
-    
+	.content {
+        flex: 1; /* 남은 공간 차지 */
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        overflow-y: auto; /* 세로 스크롤 가능 */
+    }
     /* 오른쪽 텍스트 */
     .host-page {
-        position: fixed;
-        left: calc(20px + 120px * 4 + 10px * 3); /* 왼쪽 여백 + 버튼 너비와 간격의 합 */
-        top: 50%; /* 화면 상단으로부터의 위치 조절 */
-        transform: translateY(-50%);
+        flex: 1; /* 남은 공간 차지 */
+        padding: 20px;
+        margin: 0 auto;
+        width: 100%;
     }
+	.reservation-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+     .reservation-table th, .reservation-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    .reservation-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }    
 </style>
 </head>
 <body>
-<div class="vertical-buttons">
-    <button onclick="location.href='/path/to/first-page'">First Button</button>
-    <button onclick="location.href='/path/to/second-page'">Second Button</button>
-    <button onclick="location.href='/path/to/third-page'">Third Button</button>
-    <button onclick="location.href='/host/host-house-reservation-list'">예약 현황</button>
+<div class="main-container">
+	<div class="vertical-buttons">
+	    <button onclick="location.href='/members/myinfo-edit/${sessionScope.memberId}'">회원 정보 수정</button>
+	    <button onclick="location.href='/house/register'">숙소 등록</button>
+	    <button onclick="location.href='/host/host-house-reservation-list'">예약 현황</button>
+	</div>
+	<div class="content">
+		<div class="host-page">
+		<c:if test="${not empty sessionScope.memberId}">
+	    <h1>환영합니다! 사용자넘버: ${sessionScope.memberId}</h1>
+	    </c:if>
+	    <table class="reservation-table">	    
+                <thead>
+                    <tr>
+                        <th>숙소명</th>
+                        <th>주소</th>
+                        <th>최대인원</th>
+                        <th>가격(일당)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="list" items="${houseList}">
+                        <tr>
+                            <td>${list.name}</td>
+                            <td>${list.address}</td>
+                            <td>${list.maxPeople}</td>
+                            <td>${list.pricePerDay}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+		</div>
+	</div>
+	
 </div>
-
-<div class="host-page">
-    <h1>HostPage 호스트페이지</h1>
-    <c:if test="${not empty sessionScope.memberId}">
-    <p>MemberId: ${sessionScope.memberId}</p>
-</c:if>
-</div>
-
 </body>
 </html>

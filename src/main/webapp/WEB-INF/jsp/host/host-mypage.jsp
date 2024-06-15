@@ -31,7 +31,7 @@
     <button onclick="location.href='/path/to/first-page'">First Button</button>
     <button onclick="location.href='/path/to/second-page'">Second Button</button>
     <button onclick="location.href='/path/to/third-page'">Third Button</button>
-    <button onclick="location.href='/path/to/fourth-page'">Fourth Button</button>
+    <button onclick="location.href='/host/host-house-reservation-list'">예약 현황</button>
 </div>
 
 <div class="host-page">

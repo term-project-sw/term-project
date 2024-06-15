@@ -1,4 +1,4 @@
-package com.example.airbnb.comment.domain;
+package com.example.airbnb.review.domain;
 
 import com.example.airbnb.common.domain.BaseEntity;
 import com.example.airbnb.member.domain.Member;
@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,11 @@ public class Comment extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder
+    public Comment(final String content, final Review review, final Member member) {
+        this.content = content;
+        this.review = review;
+        this.member = member;
+    }
 }

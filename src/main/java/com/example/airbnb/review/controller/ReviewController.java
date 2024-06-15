@@ -1,14 +1,22 @@
 package com.example.airbnb.review.controller;
 
+import com.example.airbnb.house.domain.House;
 import com.example.airbnb.reservation.controller.ReservaitonController;
 import com.example.airbnb.reservation.dto.ReservationDetailDTO;
+import com.example.airbnb.review.domain.Review;
 import com.example.airbnb.review.dto.HouseReviewDetailDTO;
 import com.example.airbnb.review.dto.ReviewDetailDTO;
+import com.example.airbnb.review.service.CommentService;
 import com.example.airbnb.review.service.ReviewServiceIF;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.security.Principal;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,29 +27,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+@Slf4j
 public class ReviewController {
     // log4j 객체
     private static final Logger log = (Logger) LogManager.getLogger(ReservaitonController.class);
 
     // 예약 서비스 DI 객체
     private ReviewServiceIF service;
+    private CommentService commentService;
 
     /**
      * ReviewController 생성자
      *
-     * @author 승기
      * @param service
+     * @author 승기
      */
-    public ReviewController(ReviewServiceIF service) {
+    public ReviewController(final ReviewServiceIF service, final CommentService commentService) {
         this.service = service;
+        this.commentService = commentService;
     }
 
     /**
-     * ㅇ
-     * 마이 리뷰 정보 리스트 조회 Controller
+     * ㅇ 마이 리뷰 정보 리스트 조회 Controller
      *
-     * @author 승기
      * @return
+     * @author 승기
      */
     @RequestMapping("/guest/{memberId}/reviews")
     public ModelAndView getReviewList(@RequestParam Map<String, Object> allParams, @PathVariable int memberId) {
@@ -69,8 +79,8 @@ public class ReviewController {
     /**
      * 마이 리뷰 상세 정보 조회 Controller
      *
-     * @author 승기
      * @return
+     * @author 승기
      */
     @RequestMapping("/review/detail/{reviewId}")
     public ModelAndView getReviewDetail(@PathVariable int reviewId) {
@@ -95,7 +105,6 @@ public class ReviewController {
     }
 
 
-
     /**
      * 마이 리뷰 수정 Ajax
      *
@@ -112,7 +121,6 @@ public class ReviewController {
 
         return result;
     }
-
 
 
     /**
@@ -133,14 +141,11 @@ public class ReviewController {
     }
 
 
-
-
     /**
-     * ㅇ
-     * 숙소 리뷰 정보 리스트 조회 Controller
+     * ㅇ 숙소 리뷰 정보 리스트 조회 Controller
      *
-     * @author 승기
      * @return
+     * @author 승기
      */
     @RequestMapping("/house/{houseId}/reviews")
     public ModelAndView getHouseReviewList(@RequestParam Map<String, Object> allParams, @PathVariable int houseId) {
@@ -169,8 +174,8 @@ public class ReviewController {
     /**
      * 숙소 리뷰 상세 정보 조회 Controller
      *
-     * @author 승기
      * @return
+     * @author 승기
      */
     @RequestMapping("/house/review/detail/{reviewId}")
     public ModelAndView getHouseReviewDetail(@PathVariable int reviewId) {
@@ -227,5 +232,21 @@ public class ReviewController {
         allParams.put("houseId", String.valueOf(houseId));
         Map<String, Object> result = service.addReviewService(allParams);
         return result;
+    }
+    @GetMapping("/houses/reviews")
+    public ModelAndView getHousesWithReviews(HttpSession session) {
+        Long memberId = (Long) session.getAttribute("memberId");
+
+        List<House> houses = commentService.findHousesByMember(memberId);
+        Map<House, List<Review>> houseReviewsMap = new HashMap<>();
+
+        for (House house : houses) {
+            List<Review> reviews = commentService.findReviewByHouse(house);
+            houseReviewsMap.put(house, reviews);
+        }
+
+        ModelAndView modelAndView = new ModelAndView("host/host-review-list");
+        modelAndView.addObject("houseReviewsMap", houseReviewsMap);
+        return modelAndView;
     }
 }

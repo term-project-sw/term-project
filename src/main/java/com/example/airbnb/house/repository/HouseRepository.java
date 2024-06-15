@@ -2,6 +2,7 @@ package com.example.airbnb.house.repository;
 
 import com.example.airbnb.house.domain.House;
 
+import com.example.airbnb.member.domain.Member;
 import com.example.airbnb.reservation.domain.Reservation;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -31,4 +32,6 @@ public interface HouseRepository extends JpaRepository<House, Long> {
             AND r.progress IN ('COMPLETE', 'IN_PROGRESS')
             """)
     List<Reservation> findReservationsByHouseIdAndMonth(@Param("houseId") Long houseId, @Param("year") int year, @Param("month") int month);
+
+    List<House> findByMember(Member member);
 }

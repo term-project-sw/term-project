@@ -185,4 +185,20 @@
 </select>
 
 
+
+    <insert id="insertReviewSQL" parameterType="java.util.Map">
+    <![CDATA[
+    INSERT INTO review (title, rating, content, created_at, updated_at, house_id, member_id)
+    VALUES (#{title}, #{rating}, #{content}, NOW(), NOW(), #{houseId}, #{memberId});
+    ]]>
+</insert>
+
+    <select id="selectDuplicateReviewSQL" parameterType="java.util.Map" resultType="java.lang.Integer">
+    <![CDATA[
+        SELECT COUNT(*) + 1 FROM review WHERE house_id = #{houseId} AND member_id = #{memberId}
+        ]]>
+</select>
+
+
+
 </mapper>

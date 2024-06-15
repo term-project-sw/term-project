@@ -25,4 +25,6 @@ public interface ReviewServiceIF {
     // 숙소 리뷰 상세 정보 Abstract Method
     public HouseReviewDetailDTO getHouseReviewDetailService(Map<String, Object> allParams);
 
+    // 숙속 리뷰 등록 Abstract Method
+    Map<String, Object> addReviewService(Map<String, String> allParams);
 }

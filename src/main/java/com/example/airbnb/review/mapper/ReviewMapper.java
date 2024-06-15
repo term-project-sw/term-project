@@ -10,7 +10,9 @@ import java.util.Map;
 
 @Mapper
 public interface ReviewMapper {
+    // 게스트 마이리뷰 리스트
     public List<Review> getReviewListSQL(Map<String, Object> allParams);
+
 
     public int getReviewListCountSQL(Map<String, Object> allParams);
 
@@ -25,4 +27,8 @@ public interface ReviewMapper {
     public int getHouseReviewListCountSQL(Map<String, Object> allParams);
 
     public HouseReviewDetailDTO getHouseReviewDetailSQL(Map<String, Object> allParams);
+
+    void insertReviewSQL(Map<String, String> allParams);
+
+    int selectDuplicateReviewSQL(Map<String, String> allParams);
 }

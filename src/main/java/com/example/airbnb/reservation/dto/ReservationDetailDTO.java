@@ -25,4 +25,5 @@ public class ReservationDetailDTO {
     private String hostPhone;
     private String progress;
     private int memberId;
+    private int houseId;
 }

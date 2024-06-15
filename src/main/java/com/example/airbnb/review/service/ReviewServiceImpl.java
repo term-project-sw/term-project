@@ -214,4 +214,39 @@ public class ReviewServiceImpl implements ReviewServiceIF{
         }
         return reviewDetail;
     }
+
+
+
+    /**
+     * 숙소 리뷰등록 서비스 메소드
+     *
+     * @param allParams 리뷰 등록에 필요한 모든 파라미터
+     * @return 리뷰 등록 결과를 담은 Map
+     */
+    @Override
+    public Map<String, Object> addReviewService(Map<String, String> allParams) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("REPL_CD", "000000");
+        result.put("REPL_MSG", "SUCCESS");
+
+        try {
+            // 중복 리뷰 검증
+            int reviewCount = reviewMapper.selectDuplicateReviewSQL(allParams);
+
+
+                result.put("REPL_CD", "000001");
+                result.put("REPL_MSG", reviewCount+"번째 리뷰를 작성하셨습니다.");
+
+                // 리뷰 등록
+                reviewMapper.insertReviewSQL(allParams);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            result.put("REPL_CD", "000002");
+            result.put("REPL_MSG", "리뷰 등록 실패");
+        }
+
+        return result;
+    }
+
 }

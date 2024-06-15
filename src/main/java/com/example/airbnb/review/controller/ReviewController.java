@@ -5,12 +5,16 @@ import com.example.airbnb.reservation.dto.ReservationDetailDTO;
 import com.example.airbnb.review.dto.HouseReviewDetailDTO;
 import com.example.airbnb.review.dto.ReviewDetailDTO;
 import com.example.airbnb.review.service.ReviewServiceIF;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -188,5 +192,40 @@ public class ReviewController {
 
         return mav;
 
+    }
+
+
+    /**
+     * 리뷰등록 폼 출력 Controller
+     *
+     * @param houseId
+     * @return
+     */
+    @GetMapping("/house/{houseId}/review/registerForm")
+    public ModelAndView getReviewRegisterForm(@PathVariable int houseId) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("house/house-review-register");
+        mav.addObject("houseId", houseId);
+        return mav;
+    }
+
+    /**
+     * 리뷰 등록 처리 Controller
+     *
+     * @param allParams
+     * @param houseId
+     * @return
+     */
+    @PostMapping("/house/{houseId}/review/register")
+    @ResponseBody
+    public Map<String, Object> registerReview(@RequestParam Map<String, String> allParams, @PathVariable int houseId, HttpSession session, HttpServletResponse response) throws IOException {
+        Long memberId = (Long) session.getAttribute("memberId");
+        if (memberId == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 후 이용해주세요."); // 세션이 없을 경우 에러 응답
+        }
+        allParams.put("memberId", String.valueOf(memberId));
+        allParams.put("houseId", String.valueOf(houseId));
+        Map<String, Object> result = service.addReviewService(allParams);
+        return result;
     }
 }

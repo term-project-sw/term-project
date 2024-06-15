@@ -76,6 +76,7 @@
             S.name as hostName,
             S.phone as hostPhone,
             R.member_id as memberId,
+            R.house_id as houseId,
             -- 총 결제 금액 계산
             (DATEDIFF(R.end_register_date, R.start_register_date) * H.price_per_person) as totalPrice
         FROM

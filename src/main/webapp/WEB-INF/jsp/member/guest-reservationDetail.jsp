@@ -128,7 +128,14 @@
         <div class="detail-value">${reservationDetail.hostPhone}</div>
     </div>
     <div class="button-group">
-        <input type="button" value="수정하기" id="btn_modify">
+        <c:choose>
+            <c:when test="${reservationDetail.progress eq 'COMPLETE'}">
+                <input type="button" value="리뷰 등록하기" id="btn_review">
+            </c:when>
+            <c:otherwise>
+                <input type="button" value="수정하기" id="btn_modify">
+            </c:otherwise>
+        </c:choose>
         <input type="button" value="삭제하기" id="btn_remove">
     </div>
 </div>
@@ -151,10 +158,8 @@
                 url : formSetting.action,
                 data : formData,
                 success : function(response){
-
-                        alert("예약 정보 수정이 완료되었습니다.");
-                        location.href="/reservation/detail/${reservationDetail.id}";
-
+                    alert("예약 정보 수정이 완료되었습니다.");
+                    location.href="/reservation/detail/${reservationDetail.id}";
                 },
                 error : function(response){
                     alert("수정 실패");
@@ -176,14 +181,19 @@
                 url : formSetting.action,
                 data : formData,
                 success : function(response){
-                        alert("예약 정보가 삭제되었습니다.");
-                        location.href="/member/${reservationDetail.memberId}/reservations";
-                        // history.back();
+                    alert("예약 정보가 삭제되었습니다.");
+                    location.href="/member/${reservationDetail.memberId}/reservations";
+                    // history.back();
                 },
                 error : function(response){
                     alert("삭제 실패");
                 }
             });
+        });
+
+        $('#btn_review').click(function(){
+            var houseId = "${reservationDetail.houseId}";
+            location.href = "/house/" + houseId + "/review/registerForm";
         });
     });
 </script>

@@ -131,6 +131,7 @@
 
     <a href="/house/houses">Back to House List</a>
     <a href="/house/calendar?houseId=${house.id}&year=${currentYear}&month=${currentMonth}">숙소예약하기 </a>
+    <a href="/house/${house.id}/reviews"> 리뷰 보러가기 </a>
 </div>
 </body>
 </html>

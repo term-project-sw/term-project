@@ -110,7 +110,7 @@
 <body>
 <div class="header">
     <div>
-        <button onclick="location.href='/main'">Main Page</button>
+        <button onclick="location.href='/house/houses'">Main Page</button>
     </div>
     <div>
         <c:choose>

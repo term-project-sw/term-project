@@ -18,6 +18,14 @@
         <input id="password" name="password" type="password" required/>
     </div>
     <div>
+        <label for="name">Name:</label>
+        <input id="name" name="name" type="text" required/>
+    </div>
+    <div>
+        <label for="phone">Phone:</label>
+        <input id="phone" name="phone" type="tel" required/>
+    </div>
+    <div>
         <label for="role">Role:</label>
         <select id="role" name="role" required>
             <option value="GUEST">Guest</option>
@@ -33,6 +41,8 @@
     $(document).ready(function() {
         $('#registerButton').click(function() {
             var formData = {
+                name: $('#name').val(),
+                phone: $('#phone').val(),
                 email: $('#email').val(),
                 password: $('#password').val(),
                 role: $('#role').val()
@@ -46,7 +56,7 @@
                 success: function(response) {
                     // handle success
                     alert('Registration successful!');
-                    window.location.href="/house/houses"
+                    window.location.href = "/house/houses";
                 },
                 error: function(error) {
                     // handle error

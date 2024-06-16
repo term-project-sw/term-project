@@ -49,7 +49,7 @@ public class HouseController {
 
     @PostMapping("/register")
     @ResponseBody
-    public String registerHouse(
+    public ModelAndView registerHouse(
             @RequestParam("name") String name,
             @RequestParam("maxPeople") Integer maxPeople,
             @RequestParam("address") String address,
@@ -68,8 +68,9 @@ public class HouseController {
         List<RoomCreateRequest> rooms = objectMapper.readValue(roomsJson, objectMapper.getTypeFactory().constructCollectionType(List.class, RoomCreateRequest.class));
 
         houseService.saveHouse(request, memberId, rooms);
-
-        return "Success";
+        final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/host/mypage");
+        return modelAndView;
     }
 
     @GetMapping("/houses")

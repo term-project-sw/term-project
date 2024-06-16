@@ -59,7 +59,7 @@ public class MemberController {
     public ModelAndView logout(HttpSession session) {
         session.invalidate();
         final ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/house/houses");
+        modelAndView.setViewName("redircet/house/houses");
         return modelAndView;
     }
 

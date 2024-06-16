@@ -119,7 +119,7 @@
         </c:forEach>
     </c:if>
 
-    <a href="/houses">Back to House List</a>
+    <a href="/house/houses">Back to House List</a>
 </div>
 </body>
 </html>

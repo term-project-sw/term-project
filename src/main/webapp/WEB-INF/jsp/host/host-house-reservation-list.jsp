@@ -64,6 +64,7 @@
         <button onclick="location.href='/members/myinfo-edit/${sessionScope.memberId}'">회원 정보 수정</button>
         <button onclick="location.href='/house/register'">숙소 등록</button>
         <button onclick="location.href='/host/host-house-reservation-list'">예약 현황</button>
+        <button onclick="location.href='/houses/reviews'">리뷰 전체 목록</button>
     </div>
     <div class="content">
         <div class="container">

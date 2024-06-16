@@ -130,17 +130,20 @@
     </div>
     <div class="button-group">
         <c:choose>
-            <c:when test="${reservationDetail.progress eq 'COMPLETE'}">
-                <input type="button" value="리뷰 등록하기" id="btn_review">
+            <c:when test="${sessionScope.role eq 'GUEST'}">
+                <c:choose>
+                    <c:when test="${reservationDetail.progress eq 'COMPLETE'}">
+                        <input type="button" value="리뷰 등록하기" id="btn_review">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="button" value="수정하기" id="btn_modify">
+                    </c:otherwise>
+                </c:choose>
             </c:when>
-            <c:otherwise>
-                <input type="button" value="수정하기" id="btn_modify">
-            </c:otherwise>
         </c:choose>
         <input type="button" value="삭제하기" id="btn_remove">
     </div>
     <div class="vertical-buttons">
-        <button onclick="location.href='/members/guest/mypage'">마이 페이지</button>
         <button onclick="location.href='/members/myinfo-edit/${reservationDetail.memberId}'">회원 정보 수정</button>
         <button onclick="location.href='/member/${reservationDetail.memberId}/reservations'">예약 내역</button>
         <button onclick="location.href='/guest/${reservationDetail.memberId}/reviews'">마이 리뷰</button>

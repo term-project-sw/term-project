@@ -90,8 +90,6 @@
                 <option value="10" <c:if test="${allParams.itemsPerPage eq '10'}">selected</c:if>>10</option>
                 <option value="20" <c:if test="${allParams.itemsPerPage eq '20'}">selected</c:if>>20</option>
             </select>
-            <button id="btn-main-form" type="button">메인 페이지</button>
-            <button id="btn-my-form" type="button">마이 페이지</button>
             <button id="btn-edit-form" type="button">회원정보 수정</button>
             <button id="btn-review-form" type="button">마이 리뷰</button>
         </div>

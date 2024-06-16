@@ -22,6 +22,8 @@ public class UpdateMemberServiceImpl implements UpdateMemberServiceIF{
     @Override
     public void deleteMember(Long id) { // 추가
         System.out.println(id);
+        memberEditMapper.deleteMemberReservations(id);
+        memberEditMapper.deleteMemberReview(id);
         memberEditMapper.deleteMember(id);
     }
 

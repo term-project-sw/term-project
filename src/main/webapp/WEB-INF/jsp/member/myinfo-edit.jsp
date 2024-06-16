@@ -39,13 +39,13 @@
             }
 
             const memberId = ${member.id};
-            fetch(`${pageContext.request.contextPath}/members/${member.id}`, {
+            fetch(`${pageContext.request.contextPath}/member/${member.id}`, {
                 method: 'DELETE' // HTTP DELETE 메서드 사용
             }).then(response => {
                 if (response.ok) {
                     alert('회원 탈퇴가 완료되었습니다.');
                     //window.location.reload();
-                    window.location.href = "${pageContext.request.contextPath}/main"; // 메인 페이지로 이동
+                    window.location.href = "${pageContext.request.contextPath}/house/houses"; // 메인 페이지로 이동
                 } else {
                     alert('회원 탈퇴에 실패했습니다.');
                 }

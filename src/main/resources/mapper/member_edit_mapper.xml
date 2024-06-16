@@ -14,11 +14,18 @@
         ]]>
     </update>
 
-    <delete id="deleteMember" parameterType="long"> <!-- 추가 -->
+    <delete id="deleteMember" parameterType="java.lang.Long">
         <![CDATA[
             DELETE FROM swframework.member
             WHERE id = #{id}
         ]]>
     </delete>
 
+    <delete id="deleteMemberReservations" parameterType="java.lang.Long">
+        DELETE FROM reservation WHERE member_id = #{id}
+    </delete>
+
+    <delete id="deleteMemberReview" parameterType="java.lang.Long">
+        DELETE FROM review WHERE member_id = #{id}
+    </delete>
 </mapper>

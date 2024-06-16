@@ -34,21 +34,22 @@ public class UpdateMemberCotroller {
     }
 
     // 회훤 탈퇴
-    @DeleteMapping("/members/{id}")
+    @DeleteMapping("/member/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
         try {
             updateMember.deleteMember(id);
             return ResponseEntity.ok().build();
 
         } catch (Exception e) {
+            e.printStackTrace();  // 콘솔에 에러 로그 출력
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
 
-    @GetMapping("/main")
-    public ModelAndView redirectToMain() {
-        return new ModelAndView("main/main");
-    }
+//    @GetMapping("/main")
+//    public ModelAndView redirectToMain() {
+//        return new ModelAndView("main/main");
+//    }
 
 }

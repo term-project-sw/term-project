@@ -115,10 +115,10 @@
         const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
         monthYearLabel.textContent = `${monthNames[month - 1]} ${year}`;
 
-        const startDate = new Date(year, month - 1, 1);
-        const endDate = new Date(year, month, 0);
-        const startDay = startDate.getDay();
-        const totalDays = endDate.getDate();
+        const startDate = new Date(Date.UTC(year, month - 1, 1));
+        const endDate = new Date(Date.UTC(year, month, 0));
+        const startDay = startDate.getUTCDay();
+        const totalDays = endDate.getUTCDate();
 
         // 빈 칸 채우기
         for (let i = 0; i < startDay; i++) {
@@ -129,7 +129,7 @@
 
         // 날짜 채우기
         for (let day = 1; day <= totalDays; day++) {
-            const date = new Date(year, month - 1, day);
+            const date = new Date(Date.UTC(year, month - 1, day));
             const dateString = date.toISOString().split('T')[0]; // "YYYY-MM-DD" 형식
             const dayCell = document.createElement('div');
             dayCell.classList.add('day');
@@ -142,10 +142,10 @@
     }
 
     function changeMonth(offset) {
-        const newDate = new Date(currentYear, currentMonth - 1 + offset, 1);
+        const newDate = new Date(Date.UTC(currentYear, currentMonth - 1 + offset, 1));
         const newUrl = new URL(window.location.href);
-        newUrl.searchParams.set('year', newDate.getFullYear());
-        newUrl.searchParams.set('month', newDate.getMonth() + 1);
+        newUrl.searchParams.set('year', newDate.getUTCFullYear());
+        newUrl.searchParams.set('month', newDate.getUTCMonth() + 1);
         newUrl.searchParams.set('houseId', houseId);
         window.location.href = newUrl.toString();
     }

@@ -1,4 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.time.LocalDate" %>
+<%
+    LocalDate now = LocalDate.now();
+    int currentYear = now.getYear();
+    int currentMonth = now.getMonthValue();
+    pageContext.setAttribute("currentYear", currentYear);
+    pageContext.setAttribute("currentMonth", currentMonth);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,6 +130,7 @@
     </c:if>
 
     <a href="/house/houses">Back to House List</a>
+    <a href="/house/calendar?houseId=${house.id}&year=${currentYear}&month=${currentMonth}">숙소예약하기 </a>
 </div>
 </body>
 </html>

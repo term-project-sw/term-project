@@ -146,6 +146,7 @@ public class ReservaitonController {
         modelAndView.addObject("houseId", houseId);
         modelAndView.addObject("year", startRegisterDate.getYear());
         modelAndView.addObject("month", startRegisterDate.getMonthValue());
+        modelAndView.setViewName("house/houses/" + houseId);
         return modelAndView;
     }
 

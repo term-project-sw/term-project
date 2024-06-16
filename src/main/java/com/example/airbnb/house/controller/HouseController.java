@@ -5,7 +5,6 @@ import com.example.airbnb.house.dto.HouseCreateRequest;
 import com.example.airbnb.house.dto.HouseDetailResponse;
 import com.example.airbnb.house.dto.RoomCreateRequest;
 import com.example.airbnb.house.service.HouseService;
-import com.example.airbnb.reservation.domain.Reservation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
@@ -17,10 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -65,7 +62,8 @@ public class HouseController {
         HouseCreateRequest request = new HouseCreateRequest(name, maxPeople, address, introduce, description,
                 pricePerDay, images);
 
-        List<RoomCreateRequest> rooms = objectMapper.readValue(roomsJson, objectMapper.getTypeFactory().constructCollectionType(List.class, RoomCreateRequest.class));
+        List<RoomCreateRequest> rooms = objectMapper.readValue(roomsJson,
+                objectMapper.getTypeFactory().constructCollectionType(List.class, RoomCreateRequest.class));
 
         houseService.saveHouse(request, memberId, rooms);
         final ModelAndView modelAndView = new ModelAndView();
@@ -110,7 +108,6 @@ public class HouseController {
     }
 
 
-
     @GetMapping("/calendar")
     public ModelAndView getCalendar(@RequestParam("houseId") Long houseId,
                                     @RequestParam("year") int year,
@@ -127,7 +124,8 @@ public class HouseController {
     }
 
     @GetMapping("/main")
-    public String redirectToHouses(@RequestParam(required = false) String search, RedirectAttributes redirectAttributes) {
+    public String redirectToHouses(@RequestParam(required = false) String search,
+                                   RedirectAttributes redirectAttributes) {
         if (search != null && !search.isEmpty()) {
             redirectAttributes.addAttribute("search", search);
         }

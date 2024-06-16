@@ -32,9 +32,11 @@ public class MemberController {
     }
 
     @PostMapping("/member/register")
-    public String registerMember(@RequestBody MemberCreateRequest request) {
+    public ModelAndView registerMember(@RequestBody MemberCreateRequest request) {
         memberService.save(request);
-        return "redirect:/member/register";
+        final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/house/houses");
+        return modelAndView;
     }
 
     @GetMapping("/member/login")
@@ -59,7 +61,7 @@ public class MemberController {
     public ModelAndView logout(HttpSession session) {
         session.invalidate();
         final ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redircet/house/houses");
+        modelAndView.setViewName("redirect:/house/houses");
         return modelAndView;
     }
 

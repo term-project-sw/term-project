@@ -70,7 +70,9 @@
                 <tbody>
                     <c:forEach var="list" items="${houseList}">
                         <tr>
-                            <td>${list.name}</td>
+                            <td>${list.name}
+                                <button onclick="location.href='/house/houses/'+${list.id}">숙소상세</button>
+                            </td>
                             <td>${list.address}</td>
                             <td>${list.maxPeople}</td>
                             <td>${list.pricePerDay}</td>

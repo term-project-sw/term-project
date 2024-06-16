@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/member/member-header.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -61,11 +61,10 @@
 <body>
 <div class="main-container">
     <div class="vertical-buttons">
-        <div class="vertical-buttons">
-	    <button onclick="location.href='/members/myinfo-edit/${sessionScope.memberId}'">회원 정보 수정</button>
-	    <button onclick="location.href='/house/register'">숙소 등록</button>
-	    <button onclick="location.href='/host/host-house-reservation-list'">예약 현황</button>
-	</div>
+        <button onclick="location.href='/members/myinfo-edit/${sessionScope.memberId}'">회원 정보 수정</button>
+        <button onclick="location.href='/house/register'">숙소 등록</button>
+        <button onclick="location.href='/host/host-house-reservation-list'">예약 현황</button>
+        <button onclick="location.href='/houses/reviews'">리뷰 전체 목록</button>
     </div>
     <div class="content">
         <div class="container">
@@ -84,31 +83,27 @@
                 </select>
             </div>
             <table class="reservation-table">
-      		<input type="hidden" id="member-id" name="memberId" value="${SessionScope.memberId}" />
-      		<input type="hidden" id="member-role" name="memberRole" value="${SessionScope.memberRole}" />
+                <input type="hidden" id="member-id" name="memberId" value="${SessionScope.memberId}" />
                 <thead>
-                    <tr>
-                        <th>예약 번호</th>
-                        <th>상태</th>
-                        <th>체크인</th>
-                        <th>체크아웃</th>
-                        <th>상태변경</th>
-
-                    </tr>
+                <tr>
+                    <th>예약 번호</th>
+                    <th>상태</th>
+                    <th>체크인</th>
+                    <th>체크아웃</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="list" items="${reservationList}">
-                        <tr>
-                            <td>${list.id}</td>
-                            <td>${list.progress}</td>
-                            <td>${list.startRegisterDate}</td>
-                            <td>${list.endRegisterDate}</td>
-                            <td>
-	                            <button onClick="location.href='/host/update_reservation/${list.id}/1'">승인</button>
-	                            <button onClick="location.href='/host/update_reservation/${list.id}/0'">거부</button>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                <c:forEach var="list" items="${reservationList}">
+                    <tr>
+                        <td>${list.id}</td>
+                        <td>${list.progress}
+                            <button class="update-status-btn" data-id="${list.id}" data-status="COMPLETE">승인</button>
+                            <button class="update-status-btn" data-id="${list.id}" data-status="CANCEL">취소</button>
+                        </td>
+                        <td>${list.startRegisterDate}</td>
+                        <td>${list.endRegisterDate}</td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -119,16 +114,50 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function(){
-    $('#btn_search').click(function(e){
-        e.preventDefault(); // 폼의 기본 제출 동작을 막음
-        var formSettings = {
-            "action": "/host/host-house-reservation-list",
-            "method": "POST"
-        };
-        $('form').attr('action', formSettings.action);
-        $('form').attr('method', formSettings.method);
-        $('form').submit();
+    $(document).ready(function(){
+        $('#btn_search').click(function(e){
+            e.preventDefault(); // 폼의 기본 제출 동작을 막음
+            var formSettings = {
+                "action": "/host/host-house-reservation-list",
+                "method": "POST"
+            };
+            $('form').attr('action', formSettings.action);
+            $('form').attr('method', formSettings.method);
+            $('form').submit();
+        });
     });
-});
+
+    function updateReservationStatus(id, status) {
+        $.ajax({
+            type: 'POST',
+            url: '/host/update_reservation/' + id + '/' + status, // 올바르게 URL 구성
+            success: function(response) {
+                fetchReservationList(); // 예약 목록을 다시 불러오는 함수 호출
+            },
+            error: function(error) {
+                alert('Update failed: ' + error.responseText);
+            }
+        });
+    }
+
+    function fetchReservationList() {
+        // 예약 목록을 다시 불러오는 Ajax 요청
+        $.ajax({
+            type: 'GET',
+            url: '/host/host-house-reservation-list',
+            success: function(response) {
+                // 예약 목록을 다시 로딩합니다.
+                location.reload(); // 예약 목록이 포함된 HTML을 새로 갱신합니다.
+            },
+            error: function(error) {
+                alert('Failed to fetch reservation list: ' + error.responseText);
+            }
+        });
+    }
+
+    $(document).on('click', '.update-status-btn', function() {
+        var id = $(this).data('id'); // data-id 속성을 통해 id 값을 가져옵니다
+        var status = $(this).data('status'); // data-status 속성을 통해 status 값을 가져옵니다
+        updateReservationStatus(id, status);
+    });
 </script>

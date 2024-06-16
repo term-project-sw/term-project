@@ -50,6 +50,7 @@
                     contentType: false,
                     success: function(response) {
                         alert('집이 성공적으로 등록되었습니다!');
+                        window.location.href="/host/mypage"
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert('오류: ' + errorThrown);

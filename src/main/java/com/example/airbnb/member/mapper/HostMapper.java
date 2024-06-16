@@ -12,5 +12,5 @@ import com.example.airbnb.reservation.domain.Reservation;
 public interface HostMapper {
 	public List<Reservation> getReservationListSQL(Long id);
 	public List<House> getHouseListSQL(Long id);
-//	public String updateReservationStatusSQL(Long id,String state);
+	public void updateReservationStatusSQL(Map<String,Object> paramters);
 }

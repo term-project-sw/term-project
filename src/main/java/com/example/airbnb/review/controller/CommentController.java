@@ -18,13 +18,16 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public void saveComment(
+    public ModelAndView saveComment(
             @RequestParam String content,
             @RequestParam Long reviewId,
             HttpSession session
     ) {
         Long memberId = (Long) session.getAttribute("memberId");
         commentService.saveComment(content, reviewId, memberId);
+        final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/houses/reviews");
+        return modelAndView;
     }
 
     @GetMapping("/new")

@@ -46,6 +46,7 @@
                 success: function(response) {
                     // handle success
                     alert('Registration successful!');
+                    window.location.href="/house/houses"
                 },
                 error: function(error) {
                     // handle error

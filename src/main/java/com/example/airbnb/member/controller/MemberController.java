@@ -32,9 +32,11 @@ public class MemberController {
     }
 
     @PostMapping("/member/register")
-    public String registerMember(@RequestBody MemberCreateRequest request) {
+    public ModelAndView registerMember(@RequestBody MemberCreateRequest request) {
         memberService.save(request);
-        return "redirect:/member/register";
+        final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/house/houses");
+        return modelAndView;
     }
 
     @GetMapping("/member/login")

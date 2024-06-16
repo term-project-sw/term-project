@@ -103,4 +103,86 @@
         ]]>
 </delete>
 
+
+
+    <select id="getHouseReviewListSQL" resultType="com.example.airbnb.review.dto.HouseReviewListDTO" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT
+            R.id,
+            R.title,
+            R.rating,
+            M.name as memberName,
+            date_format(R.updated_at,'%Y-%m-%d %H:%i:%s') as updateAt
+        FROM
+            review R
+        JOIN
+            member M ON R.member_id = M.id
+        WHERE
+            R.house_id = #{houseId}
+        ]]>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <if test="searchType == 'memberName'">
+                <![CDATA[
+                AND M.name LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+            <if test="searchType == 'title'">
+                <![CDATA[
+                AND R.title LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+        </if>
+        <![CDATA[
+        LIMIT #{pageStartNum}, #{itemsPerPage}
+        ]]>
+    </select>
+
+    <select id="getHouseReviewListCountSQL" resultType="java.lang.Integer" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT COUNT(*) AS TOTAL_CNT
+        FROM
+            review R
+        JOIN
+            member M ON R.member_id = M.id
+        WHERE
+            R.house_id = #{houseId}
+        ]]>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <if test="searchType == 'memberName'">
+                <![CDATA[
+                AND M.name LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+            <if test="searchType == 'title'">
+                <![CDATA[
+                AND R.title LIKE CONCAT('%',#{searchKeyword},'%')
+                ]]>
+            </if>
+        </if>
+    </select>
+
+
+
+    <select id="getHouseReviewDetailSQL" resultType="com.example.airbnb.review.dto.HouseReviewDetailDTO" parameterType="java.util.Map">
+    <![CDATA[
+        SELECT
+            R.id,
+            R.title,
+            R.rating,
+            R.content,
+            M.name AS memberName,
+            DATE_FORMAT(R.updated_at,'%Y-%m-%d %H:%i:%s') AS updatedAt,
+            COALESCE(C.content, '답변 대기중') AS comment
+        FROM
+            review R
+                JOIN
+            Member M ON R.member_id = M.id
+                LEFT JOIN
+            comment C ON R.id = C.review_id
+        WHERE
+            R.id = #{reviewId}
+        ]]>
+</select>
+
+
 </mapper>

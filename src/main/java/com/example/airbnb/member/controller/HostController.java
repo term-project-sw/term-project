@@ -1,11 +1,14 @@
 package com.example.airbnb.member.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,11 +40,15 @@ public class HostController {
 		mav.setViewName("host/host-mypage");
 		return mav;
 	}
-//	@GetMapping("/update_reservation/{id}/{state}")
-//	public String updateReservationStatus(@PathVariable Long id,@PathVariable int state) {
-//		
-//		return "done";
-//	}
+	@PostMapping("/update_reservation/{id}/{status}")
+	public ResponseEntity<String> updateReservationStatus(@PathVariable Long id, @PathVariable String status) {
+	    Map<String, Object> update = new HashMap<>();
+	    update.put("id", id);
+	    update.put("progress", status);
+	    hostService.updateReservationStatusService(update);
+	    return ResponseEntity.ok("Reservation status updated successfully.");
+	}
+	
 	@RequestMapping("/host-house-reservation-list")
 	public ModelAndView getReservationList(@RequestParam Map<String,String> allParams,HttpSession session) {
 		ModelAndView mav= new ModelAndView();

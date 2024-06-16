@@ -92,10 +92,7 @@ public class HouseService {
     public Page<House> searchHousesByName(String name, Pageable pageable) {
         return houseRepository.findByNameContainingIgnoreCase(name, pageable);
     }
-
-
-    public House getHouseById(Long id) {
-        return houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid house Id:" + id));
+    
     public HouseDetailResponse getHouseById(Long id) {
         House house = houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid house Id:" + id));
         List<Room> rooms = roomRepository.findByHouse(house);

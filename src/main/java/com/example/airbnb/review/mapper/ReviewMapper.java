@@ -1,6 +1,7 @@
 package com.example.airbnb.review.mapper;
 
 import com.example.airbnb.review.domain.Review;
+import com.example.airbnb.review.dto.HouseReviewDetailDTO;
 import com.example.airbnb.review.dto.ReviewDetailDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,4 +19,10 @@ public interface ReviewMapper {
     public void updateReviewDetailSQL(Map<String, String> allParams);
 
     public void removeReviewDetailSQL(Map<String, String> allParams);
+
+    public List<Review> getHouseReviewListSQL(Map<String, Object> allParams);
+
+    public int getHouseReviewListCountSQL(Map<String, Object> allParams);
+
+    public HouseReviewDetailDTO getHouseReviewDetailSQL(Map<String, Object> allParams);
 }

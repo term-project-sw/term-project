@@ -52,17 +52,8 @@ public class HostService {
 		List<House> data = hostMapper.getHouseListSQL(id);
 		return data;
 	}
-//	public String updateReservationStatusService(Long id,int state) {
-//		String result="";
-//		if(state==1) 
-//		{
-//			hostMapper.updateReservationStatusSQL(id,"COMPLETE");
-//			result="success";
-//		}else
-//		{
-//			hostMapper.updateReservationStatusSQL(id, "CANCEL");
-//			result="sucess";
-//		}
-//		return result;
-//	}
+	public void updateReservationStatusService(Map<String,Object> parameters) {
+			hostMapper.updateReservationStatusSQL(parameters);
+		
+	}
 }

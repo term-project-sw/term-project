@@ -63,4 +63,11 @@ public class MemberController {
     	session.invalidate();
     	return "메인페이지로 되돌아 갑니다.";
     }
+
+
+    @GetMapping("/guest/mypage")
+    public ModelAndView showMyPage() {
+        ModelAndView mav = new ModelAndView("member/guest-mypage");
+        return mav;
+    }
 }

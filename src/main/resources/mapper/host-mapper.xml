@@ -17,4 +17,15 @@
         WHERE h.member_id = #{Id}
         ]]>
     </select>
+    <update id="updateReservationStatusSQL" parameterType="java.util.Map">
+    <![CDATA[
+        UPDATE
+            reservation
+        SET
+            progress = #{progress}
+        WHERE
+            id = #{id}
+        ]]>
+	</update>
+    
 </mapper>

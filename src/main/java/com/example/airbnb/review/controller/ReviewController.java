@@ -2,6 +2,7 @@ package com.example.airbnb.review.controller;
 
 import com.example.airbnb.reservation.controller.ReservaitonController;
 import com.example.airbnb.reservation.dto.ReservationDetailDTO;
+import com.example.airbnb.review.dto.HouseReviewDetailDTO;
 import com.example.airbnb.review.dto.ReviewDetailDTO;
 import com.example.airbnb.review.service.ReviewServiceIF;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +34,7 @@ public class ReviewController {
 
     /**
      * ㅇ
-     * 리뷰 정보 리스트 조회 Controller
+     * 마이 리뷰 정보 리스트 조회 Controller
      *
      * @author 승기
      * @return
@@ -62,7 +63,7 @@ public class ReviewController {
     }
 
     /**
-     * 리뷰 상세 정보 조회 Controller
+     * 마이 리뷰 상세 정보 조회 Controller
      *
      * @author 승기
      * @return
@@ -92,7 +93,7 @@ public class ReviewController {
 
 
     /**
-     * 리뷰 수정 Ajax
+     * 마이 리뷰 수정 Ajax
      *
      * @param allParams
      * @return
@@ -111,7 +112,7 @@ public class ReviewController {
 
 
     /**
-     * 리뷰 삭제 Ajax
+     * 마이 리뷰 삭제 Ajax
      *
      * @param allParams
      * @return
@@ -125,5 +126,67 @@ public class ReviewController {
         result = service.removeReviewService(allParams);
 
         return result;
+    }
+
+
+
+
+    /**
+     * ㅇ
+     * 숙소 리뷰 정보 리스트 조회 Controller
+     *
+     * @author 승기
+     * @return
+     */
+    @RequestMapping("/house/{houseId}/reviews")
+    public ModelAndView getHouseReviewList(@RequestParam Map<String, Object> allParams, @PathVariable int houseId) {
+
+        ModelAndView mav = new ModelAndView();
+
+        allParams.put("houseId", houseId);
+
+        log.info("Request parameters: {}", allParams);// 요청 파라미터 로그 출력
+
+        Map<String, Object> result = service.getHouseReviewListService(allParams);
+
+        log.info("Service result: {}", result);  // 서비스 결과 로그 출력
+
+        mav.addObject("allParams", allParams);
+        mav.addObject("houseReviewList", result.get("houseReviewList"));
+        mav.addObject("pagingHtml", result.get("pagingHtml"));
+
+        mav.setViewName("house/house-reviewList");
+
+        return mav;
+
+    }
+
+
+    /**
+     * 숙소 리뷰 상세 정보 조회 Controller
+     *
+     * @author 승기
+     * @return
+     */
+    @RequestMapping("/house/review/detail/{reviewId}")
+    public ModelAndView getHouseReviewDetail(@PathVariable int reviewId) {
+
+        ModelAndView mav = new ModelAndView();
+
+        Map<String, Object> allParams = new HashMap<>();
+        allParams.put("reviewId", reviewId);
+
+        log.info("Fetching review detail for reviewId: {}", reviewId);
+
+        // 서비스에서 컨트롤러를 호출해서 1개의 리뷰 데이터를 받아와서 출력
+        HouseReviewDetailDTO housereviewDetail = service.getHouseReviewDetailService(allParams);
+
+        log.info("Service result: {}", housereviewDetail.toString());
+
+        mav.addObject("housereviewDetail", housereviewDetail);
+        mav.setViewName("house/house-reviewDetail");
+
+        return mav;
+
     }
 }

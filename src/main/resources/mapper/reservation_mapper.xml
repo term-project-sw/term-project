@@ -97,7 +97,7 @@
             reservation
         SET
             start_register_date = #{startRegisterDate},
-            end_register_date = #{endRegisterDate}
+            end_register_date = #{endRegisterDate},
         WHERE
             id = #{reservationId}
           AND progress = 'IN_PROGRESS'

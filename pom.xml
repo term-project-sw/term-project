@@ -96,6 +96,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+        
+        <!-- log4j 연동 라이브러리 -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
     </dependencies>
 
     <build>
@@ -107,4 +113,5 @@
         </plugins>
     </build>
 
+	
 </project>

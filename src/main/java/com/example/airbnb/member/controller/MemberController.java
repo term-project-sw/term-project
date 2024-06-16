@@ -7,6 +7,7 @@ import com.example.airbnb.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,9 +56,11 @@ public class MemberController {
     }
 
     @PostMapping("/member/logout")
-    public String logout(HttpSession session) {
+    public ModelAndView logout(HttpSession session) {
         session.invalidate();
-        return "메인페이지로 되돌아 갑니다.";
+        final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/house/houses");
+        return modelAndView;
     }
 
 

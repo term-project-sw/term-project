@@ -2,7 +2,6 @@ package com.example.airbnb.review.controller;
 
 import com.example.airbnb.house.domain.House;
 import com.example.airbnb.reservation.controller.ReservaitonController;
-import com.example.airbnb.reservation.dto.ReservationDetailDTO;
 import com.example.airbnb.review.domain.Review;
 import com.example.airbnb.review.dto.HouseReviewDetailDTO;
 import com.example.airbnb.review.dto.ReviewDetailDTO;
@@ -10,21 +9,21 @@ import com.example.airbnb.review.service.CommentService;
 import com.example.airbnb.review.service.ReviewServiceIF;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.security.Principal;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @Slf4j
@@ -223,7 +222,8 @@ public class ReviewController {
      */
     @PostMapping("/house/{houseId}/review/register")
     @ResponseBody
-    public Map<String, Object> registerReview(@RequestParam Map<String, String> allParams, @PathVariable int houseId, HttpSession session, HttpServletResponse response) throws IOException {
+    public Map<String, Object> registerReview(@RequestParam Map<String, String> allParams, @PathVariable int houseId,
+                                              HttpSession session, HttpServletResponse response) throws IOException {
         Long memberId = (Long) session.getAttribute("memberId");
         if (memberId == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 후 이용해주세요."); // 세션이 없을 경우 에러 응답
@@ -233,6 +233,7 @@ public class ReviewController {
         Map<String, Object> result = service.addReviewService(allParams);
         return result;
     }
+
     @GetMapping("/houses/reviews")
     public ModelAndView getHousesWithReviews(HttpSession session) {
         Long memberId = (Long) session.getAttribute("memberId");

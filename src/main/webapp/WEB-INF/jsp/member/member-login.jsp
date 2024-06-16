@@ -36,9 +36,9 @@
                 contentType: 'application/json',
                 data: JSON.stringify(loginData),
                 success: function(response) {
-                    window.location.href = "/house/houses";
                     // handle success
-                    alert(response);
+                    // alert(response);
+                    window.location.href = "/house/houses";
                 },
                 error: function(error) {
                     // handle error

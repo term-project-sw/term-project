@@ -62,11 +62,11 @@
 <script>
     $(document).ready(function(e){
         $('#btn-main-form').click(function(e){
-            location.href = "/main";
+            location.href = "/house/houses";
         });
         $('#btn-my-form').click(function(e){
             // location.href = "/member/guest-mypage";
-            window.location.href = "${pageContext.request.contextPath}/guest-mypage";
+            window.location.href = "/members/guest/mypage";
         });
         $('#btn-edit-form').click(function(e){
             <%--location.href = "members/myinfo-edit/${allParams.memberId}";--%>

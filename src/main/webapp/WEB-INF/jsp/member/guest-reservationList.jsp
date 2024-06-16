@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="/WEB-INF/jsp/member/member-header.jsp" %>
+<%@ include file="/WEB-INF/jsp/context/global-context.jspf" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -119,11 +119,11 @@
 <script>
     $(document).ready(function(e){
         $('#btn-main-form').click(function(e){
-            location.href = "/main";
+            location.href = "/house/houses";
         });
         $('#btn-my-form').click(function(e){
             // location.href = "/member/guest-mypage";
-            window.location.href = "${pageContext.request.contextPath}/guest-mypage";
+            window.location.href = "${pageContext.request.contextPath}/members/guest/mypage";
         });
         $('#btn-edit-form').click(function(e){
             <%--location.href = "members/myinfo-edit/${allParams.memberId}";--%>

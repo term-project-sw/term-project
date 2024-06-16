@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/context/global-context.jspf" %>
+<%@ include file="/WEB-INF/jsp/member/member-header.jsp" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -64,11 +65,11 @@
 <script>
     $(document).ready(function(e){
         $('#btn-main-form').click(function(e){
-            location.href = "/main";
+            location.href = "/house/houses";
         });
         $('#btn-my-form').click(function(e){
             // location.href = "/member/guest-mypage";
-            window.location.href = "${pageContext.request.contextPath}/guest-mypage";
+            window.location.href = "${pageContext.request.contextPath}/members/guest/mypage";
         });
         $('#btn-edit-form').click(function(e){
             <%--location.href = "members/myinfo-edit/${allParams.memberId}";--%>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/jsp/member/member-header.jsp" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -137,6 +138,12 @@
             </c:otherwise>
         </c:choose>
         <input type="button" value="삭제하기" id="btn_remove">
+    </div>
+    <div class="vertical-buttons">
+        <button onclick="location.href='/members/guest/mypage'">마이 페이지</button>
+        <button onclick="location.href='/members/myinfo-edit/${reservationDetail.memberId}'">회원 정보 수정</button>
+        <button onclick="location.href='/member/${reservationDetail.memberId}/reservations'">예약 내역</button>
+        <button onclick="location.href='/guest/${reservationDetail.memberId}/reviews'">마이 리뷰</button>
     </div>
 </div>
 

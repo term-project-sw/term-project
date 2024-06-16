@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/member/member-header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,6 +80,12 @@
 
 <button type="button" onclick="deleteMember()">회원 탈퇴</button>
 
+<div class="vertical-buttons">
+    <button onclick="location.href='/members/guest/mypage'">마이 페이지</button>
+    <button onclick="location.href='/members/myinfo-edit/${member.id}'">회원 정보 수정</button>
+    <button onclick="location.href='/member/${member.id}/reservations'">예약 내역</button>
+    <button onclick="location.href='/guest/${member.id}/reviews'">마이 리뷰</button>
+</div>
 
 </body>
 </html>

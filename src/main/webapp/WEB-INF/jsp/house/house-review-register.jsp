@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/member/member-header.jsp" %>
 <%@ include file="/WEB-INF/jsp/context/global-context.jspf" %>
 
 <!DOCTYPE html>
@@ -34,6 +35,7 @@
             <input type="button" value="등록하기" id="btn_register">
         </div>
     </form>
+    <button onclick="location.href='/members/guest/mypage'">마이 페이지</button>
 </div>
 
 <script>

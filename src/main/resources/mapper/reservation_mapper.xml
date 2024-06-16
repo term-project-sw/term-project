@@ -69,7 +69,7 @@
             M.name as guestName,
             date_format(R.start_register_date,'%Y-%m-%d %H:%i:%s') as startDate,
             date_format(R.end_register_date,'%Y-%m-%d %H:%i:%s') as endDate,
-            H.price_per_person,
+            H.price_per_day,
             H.max_people,
             R.progress,
             date_format(R.updated_at,'%Y-%m-%d %H:%i:%s') as updatedAt,
@@ -78,7 +78,7 @@
             R.member_id as memberId,
             R.house_id as houseId,
             -- 총 결제 금액 계산
-            (DATEDIFF(R.end_register_date, R.start_register_date) * H.price_per_person) as totalPrice
+            (DATEDIFF(R.end_register_date, R.start_register_date) * H.price_per_day) as totalPrice
         FROM
             reservation R
                 JOIN house H ON R.house_id = H.id

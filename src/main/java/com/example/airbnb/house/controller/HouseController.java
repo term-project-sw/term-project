@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/house")
@@ -122,5 +123,13 @@ public class HouseController {
         modelAndView.addObject("year", year);
         modelAndView.addObject("month", month);
         return modelAndView;
+    }
+
+    @GetMapping("/main")
+    public String redirectToHouses(@RequestParam(required = false) String search, RedirectAttributes redirectAttributes) {
+        if (search != null && !search.isEmpty()) {
+            redirectAttributes.addAttribute("search", search);
+        }
+        return "redirect:/houses";
     }
 }

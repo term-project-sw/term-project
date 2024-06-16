@@ -126,7 +126,7 @@
                     <button onclick="location.href='/host/mypage'">Mypage</button>
                 </c:if>
                 <c:if test="${sessionScope.role == 'GUEST'}">
-                    <button onclick="location.href='/guest/mypage'">Mypage</button>
+                    <button onclick="location.href='/members/guest/mypage'">Mypage</button>
                 </c:if>
             </c:otherwise>
         </c:choose>

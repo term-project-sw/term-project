@@ -20,8 +20,9 @@ public class MemberService {
 
     @Transactional
     public void save(final MemberCreateRequest request) {
-        memberRepository.findByEmail(request.getEmail())
-                        .orElseThrow(() -> new IllegalArgumentException("이미 등록된 email입니다."));
+        memberRepository.findByEmail(request.getEmail()).ifPresent(existingMember -> {
+            throw new IllegalArgumentException("Email already exists: " + request.getEmail());
+        });
         final Member member = new Member(
                 request.getName(),
                 request.getEmail(),

@@ -37,4 +37,6 @@ public class MemberService {
 
         return new MemberLoginResponse(member.getId(), member.getRole().toString());
     }
+
+
 }

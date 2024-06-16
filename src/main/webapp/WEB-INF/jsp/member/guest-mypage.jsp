@@ -28,16 +28,16 @@
 </head>
 <body>
 <div class="vertical-buttons">
-    <button onclick="location.href='/path/to/first-page'">First Button</button>
-    <button onclick="location.href='/path/to/second-page'">Second Button</button>
-    <button onclick="location.href='/path/to/third-page'">Third Button</button>
-    <button onclick="location.href='/path/to/fourth-page'">Fourth Button</button>
+    <button onclick="location.href='/members/guest/mypage'">마이 페이지</button>
+    <button onclick="location.href='/members/myinfo-edit/${member.id}'">회원 정보 수정</button>
+    <button onclick="location.href='/member/${member.id}/reservations'">예약 내역</button>
+    <button onclick="location.href='/guest/${member.id}/reviews'">마이 리뷰</button>
 </div>
 
 <div class="host-page">
     <h1>GuestPage 게스트페이지</h1>
-    <c:if test="${not empty sessionScope.memberId}">
-        <p>MemberId: ${sessionScope.memberId}</p>
+    <c:if test="${not empty member}">
+        <p>Member Name: ${member.name}</p>
     </c:if>
 </div>
 

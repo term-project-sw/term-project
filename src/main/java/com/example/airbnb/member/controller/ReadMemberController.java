@@ -2,6 +2,7 @@ package com.example.airbnb.member.controller;
 
 import com.example.airbnb.member.domain.Member;
 import com.example.airbnb.member.service.ReadMemberServiceIF;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +29,29 @@ public class ReadMemberController {
         return "memberInfo";
     }
 
-    // 멤버 정보 수정
+    // 멤버 정보 수정 폼
     @GetMapping("/myinfo-edit/{id}")
     public ModelAndView showMyInfoEditForm(@PathVariable Long id) {
         Member member = readMemberService.getMemberById(id);
         ModelAndView mav = new ModelAndView("member/myinfo-edit"); // JSP 파일의 이름
         mav.addObject("member", member);
+        return mav;
+    }
+
+
+    // 게스트 마이 페이지 폼
+    @GetMapping("/guest/mypage")
+    public ModelAndView showMyPage(HttpSession session) {
+        ModelAndView mav = new ModelAndView("member/guest-mypage");
+        Long memberId = (Long) session.getAttribute("memberId");
+
+        if (memberId != null) {
+            Member member = readMemberService.getMemberById(memberId);
+            mav.addObject("member", member);
+        } else {
+            return new ModelAndView("redirect:/member/login");
+        }
+
         return mav;
     }
 }

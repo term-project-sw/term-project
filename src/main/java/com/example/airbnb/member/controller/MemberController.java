@@ -65,9 +65,9 @@ public class MemberController {
     }
 
 
-    @GetMapping("/guest/mypage")
-    public ModelAndView showMyPage() {
-        ModelAndView mav = new ModelAndView("member/guest-mypage");
-        return mav;
-    }
+//    @GetMapping("/guest/mypage")
+//    public ModelAndView showMyPage() {
+//        ModelAndView mav = new ModelAndView("member/guest-mypage");
+//        return mav;
+//    }
 }

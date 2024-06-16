@@ -155,7 +155,7 @@
 </script>
 
 <div class="form-container">
-    <form action="<c:url value='/reserve' />" method="post">
+    <form id="reservation-form">
         <input type="hidden" name="houseId" value="<%= houseId %>">
         <div class="form-group">
             <label for="startRegisterDate">시작 날짜:</label>
@@ -165,8 +165,35 @@
             <label for="endRegisterDate">종료 날짜:</label>
             <input type="date" id="endRegisterDate" name="endRegisterDate" required>
         </div>
-        <button type="submit" class="btn">예약</button>
+        <button type="button" class="btn" id="submitReservation">예약</button>
     </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#submitReservation').click(function() {
+            var reservationData = {
+                houseId: $('[name="houseId"]').val(),
+                startRegisterDate: $('#startRegisterDate').val(),
+                endRegisterDate: $('#endRegisterDate').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '<c:url value="/reserve" />',
+                contentType: 'application/json',
+                data: JSON.stringify(reservationData),
+                success: function(response) {
+                    window.location.href = '/house/houses/' + reservationData.houseId;
+                },
+                error: function(error) {
+                    window.location.href = '/house/houses/' + reservationData.houseId;
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

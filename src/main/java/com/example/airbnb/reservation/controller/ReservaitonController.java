@@ -134,20 +134,12 @@ public class ReservaitonController {
         return result;
     }
 
-    @PostMapping("/reserve")
-    public ModelAndView makeReservation(@RequestParam("houseId") Long houseId,
-                                        @RequestParam("startRegisterDate") LocalDate startRegisterDate,
-                                        @RequestParam("endRegisterDate") LocalDate endRegisterDate,
-                                        HttpSession session) {
+    @RequestMapping("/reserve")
+    public void makeReservation(@RequestBody Map<String, Object> requestData, HttpSession session) {
+        Long houseId = Long.parseLong(requestData.get("houseId").toString());
+        LocalDate startRegisterDate = LocalDate.parse(requestData.get("startRegisterDate").toString());
+        LocalDate endRegisterDate = LocalDate.parse(requestData.get("endRegisterDate").toString());
         Long memberId = (Long) session.getAttribute("memberId");
         reservationService.makeReservation(houseId, memberId, startRegisterDate, endRegisterDate);
-
-        ModelAndView modelAndView = new ModelAndView("redirect:/calendar");
-        modelAndView.addObject("houseId", houseId);
-        modelAndView.addObject("year", startRegisterDate.getYear());
-        modelAndView.addObject("month", startRegisterDate.getMonthValue());
-        modelAndView.setViewName("house/houses/" + houseId);
-        return modelAndView;
     }
-
 }

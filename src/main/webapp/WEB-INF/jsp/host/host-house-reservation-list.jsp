@@ -69,19 +69,6 @@
     <div class="content">
         <div class="container">
             <h2>예약현황</h2>
-            <div class="search-bar">
-                <select id="sort-type" name="sortType">
-                    <option value="1" <c:if test="${allParams.sortType eq '1'}">selected</c:if>>내림차순</option>
-                    <option value="2" <c:if test="${allParams.sortType eq '2'}">selected</c:if>>오름차순</option>
-                </select>
-                <button id="btn_search">검색</button>
-                <span class="page-size-label">페이지 당 표시 개수:</span>
-                <select id="items-per-page" name="itemsPerPage">
-                    <option value="5" <c:if test="${allParams.itemsPerPage eq '5'}">selected</c:if>>5</option>
-                    <option value="10" <c:if test="${allParams.itemsPerPage eq '10'}">selected</c:if>>10</option>
-                    <option value="20" <c:if test="${allParams.itemsPerPage eq '20'}">selected</c:if>>20</option>
-                </select>
-            </div>
             <table class="reservation-table">
                 <input type="hidden" id="member-id" name="memberId" value="${SessionScope.memberId}" />
                 <thead>

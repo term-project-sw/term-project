@@ -86,8 +86,10 @@
                             <button onclick="location.href='/reservation/detail/'+${list.id}">예약상세</button>
                         </td>
                         <td>${list.progress}
-                            <button class="update-status-btn" data-id="${list.id}" data-status="COMPLETE">승인</button>
-                            <button class="update-status-btn" data-id="${list.id}" data-status="CANCEL">취소</button>
+                            <c:if test="${list.progress == 'IN_PROGRESS'}">
+                                <button class="update-status-btn" data-id="${list.id}" data-status="COMPLETE">승인</button>
+                                <button class="update-status-btn" data-id="${list.id}" data-status="CANCEL">취소</button>
+                            </c:if>
                         </td>
                         <td>${list.startRegisterDate}</td>
                         <td>${list.endRegisterDate}</td>
